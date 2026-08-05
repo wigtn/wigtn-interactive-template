@@ -25,8 +25,8 @@ test("server-renders the ASSEMBLY casting office site", async () => {
   assert.match(html, /SOYEON HAN/);
   assert.match(html, /MIRA SEO/);
   assert.match(html, /NOCTURNE/);
-  assert.match(html, /NOTES FROM SET/);
-  assert.match(html, /ASSEMBLY OFFICE/);
+  assert.match(html, /FIELD NOTES \/ 07/);
+  assert.match(html, /CONTENT DESK \/ LIVE/);
   assert.doesNotMatch(html, /공고|포트폴리오|PROPOSAL|WHAT THIS SITE PROVES/);
 });
 
@@ -42,11 +42,14 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.doesNotMatch(page, /AssemblyScene/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
+  assert.match(page, /assembly-static-02/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
   assert.match(page, /work-filters/);
   assert.match(page, /aria-pressed/);
   assert.match(page, /type="file"/);
+  assert.match(page, /reelImages/);
+  assert.match(page, /project-layer/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /word-break:\s*keep-all/);
   assert.doesNotMatch(page, /<br\s*\/?\s*>/i);
