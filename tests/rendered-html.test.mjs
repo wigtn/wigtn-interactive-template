@@ -42,7 +42,8 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.doesNotMatch(page, /AssemblyScene/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-02/);
+  assert.match(page, /assembly-static-03/);
+  assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
   assert.match(page, /work-filters/);

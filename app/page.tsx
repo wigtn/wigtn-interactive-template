@@ -204,7 +204,10 @@ export default function Home() {
       gsap.from(".footer-reel img", { yPercent: 85, rotate: index => (index - 1) * 7, duration: 1, stagger: .08, ease: "power4.out", scrollTrigger: { trigger: ".footer", start: "top 72%" } });
       ScrollTrigger.create({ start: 0, end: "max", onUpdate: self => document.documentElement.style.setProperty("--progress", `${self.progress * 100}%`) });
     }, rootRef);
-    return () => context.revert();
+    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 900);
+    const refreshOnLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refreshOnLoad, { once: true });
+    return () => { window.clearTimeout(refreshTimer); window.removeEventListener("load", refreshOnLoad); context.revert(); };
   }, []);
 
   useEffect(() => {
@@ -215,5 +218,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; window.removeEventListener("keydown", close); };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-02"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-03"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }
