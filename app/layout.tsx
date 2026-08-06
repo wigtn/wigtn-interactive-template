@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const incoming = await headers();
   const host = incoming.get("x-forwarded-host") ?? incoming.get("host") ?? "localhost:3000";
   const protocol = incoming.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  const image = `${protocol}://${host}/og-assembly-v1.png`;
+  const image = `${protocol}://${host}/og-assembly-v2.jpg`;
 
   return {
     title: "ASSEMBLY — Talent Management, Seoul",
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "ASSEMBLY — Talent Management, Seoul",
       description: "Models and actors represented for film, fashion and beauty in Seoul and worldwide.",
       type: "website",
-      images: [{ url: image, width: 1536, height: 1024, alt: "ASSEMBLY — Talent Management, Seoul" }],
+      images: [{ url: image, width: 1200, height: 630, alt: "ASSEMBLY — Talent Management, Seoul" }],
     },
     twitter: { card: "summary_large_image", title: "ASSEMBLY — Talent Management, Seoul", description: "Models and actors represented for film, fashion and beauty in Seoul and worldwide.", images: [image] },
   };

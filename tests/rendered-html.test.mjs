@@ -102,14 +102,14 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /word-break:\s*keep-all/);
   assert.doesNotMatch(page, /<br\s*\/?\s*>/i);
-  assert.match(layout, /og-assembly-v1\.png/);
+  assert.match(layout, /og-assembly-v2\.jpg/);
 
   await Promise.all([
     access(new URL("../public/assembly-film-v1.mp4", import.meta.url)),
     access(new URL("../public/soft-focus-preview-v1.mp4", import.meta.url)),
     access(new URL("../public/field-note-preview-v1.mp4", import.meta.url)),
     access(new URL("../public/nocturne-film-still-v3.png", import.meta.url)),
-    access(new URL("../public/og-assembly-v1.png", import.meta.url)),
+    access(new URL("../public/og-assembly-v2.jpg", import.meta.url)),
     access(new URL("../public/talent-noah-v2.jpg", import.meta.url)),
     access(new URL("../public/cast-hero-v2.jpg", import.meta.url)),
     access(new URL("../public/editorial-backstage-v2.jpg", import.meta.url)),
