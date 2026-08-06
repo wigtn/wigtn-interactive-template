@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -48,6 +48,7 @@ const projects: Project[] = [
 const projectPreviewVideos: Record<string, string> = { "01": "/assembly-film-v1.mp4", "02": "/soft-focus-preview-v1.mp4", "03": "/field-note-preview-v1.mp4" };
 const projectPreviewWindows: Record<string, number> = { "01": 3.2, "02": 4.7, "03": 4.7 };
 const projectPreviewRates: Record<string, number> = { "01": .62, "02": .82, "03": 1 };
+const talentPreviewVideos: Record<string, string> = { "NOAH KIM": "/assembly-film-v1.mp4", "SOYEON HAN": "/soft-focus-preview-v1.mp4", "MIRA SEO": "/field-note-preview-v1.mp4" };
 
 function Intro() {
   return <div className="intro" aria-hidden="true">
@@ -65,11 +66,11 @@ function Header() {
   return <>
     <header className="header">
       <a className="brand" href="#top" aria-label="Assembly home"><i />ASSEMBLY</a>
-      <nav aria-label="Primary navigation"><a href="#talent">Talent</a><a href="#work">Work</a><a href="#journal">Journal</a><a href="#office">Management</a></nav>
+      <nav aria-label="Primary navigation"><a href="#talent">Talent</a><a href="#work">Work</a><a href="#journal">Journal</a></nav>
       <button className="menu-toggle" onClick={() => setOpen(value => !value)} aria-expanded={open}>{open ? "Close" : "Menu"}</button>
       <a className="book-link" href="mailto:book@assembly-seoul.com">Book talent ↗</a>
     </header>
-    <div className={`mobile-menu ${open ? "open" : ""}`}>{[["Talent", "#talent"], ["Work", "#work"], ["Journal", "#journal"], ["Management", "#office"]].map(([label, href], index) => <a href={href} key={label} onClick={() => setOpen(false)}><small>0{index + 1}</small>{label}</a>)}</div>
+    <div className={`mobile-menu ${open ? "open" : ""}`}>{[["Talent", "#talent"], ["Work", "#work"], ["Journal", "#journal"]].map(([label, href], index) => <a href={href} key={label} onClick={() => setOpen(false)}><small>0{index + 1}</small>{label}</a>)}</div>
   </>;
 }
 
@@ -93,25 +94,60 @@ function Hero() {
   </section>;
 }
 
+function TalentIndexRow({ talent, index, onSelect }: { talent: Talent; index: number; onSelect: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [previewing, setPreviewing] = useState(false);
+  const startPreview = () => {
+    if (window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
+    const video = videoRef.current;
+    if (!video) return;
+    setPreviewing(true);
+    if (video.readyState >= 1) video.currentTime = 0;
+    void video.play().catch(() => setPreviewing(false));
+  };
+  const stopPreview = () => {
+    setPreviewing(false);
+    videoRef.current?.pause();
+  };
+  return <button className={`talent-row ${previewing ? "is-previewing" : ""}`} onClick={onSelect} onMouseEnter={startPreview} onMouseLeave={stopPreview} onFocus={startPreview} onBlur={stopPreview} aria-label={`Open ${talent.name} profile`}>
+    <span className="talent-no">0{index + 1}</span><span className="talent-thumb"><img src={talent.image} alt="" /><video ref={videoRef} muted loop playsInline preload="metadata" poster={talent.image} aria-hidden="true"><source src={talentPreviewVideos[talent.name]} type="video/mp4" /></video><small>MOTION PREVIEW</small></span><strong>{talent.name}</strong><span>{talent.role}</span><span>{talent.location}</span><i>↗</i>
+  </button>;
+}
+
 function OrbitRoster({ onSelect }: { onSelect: (talent: Talent) => void }) {
+  const reelRef = useRef<HTMLDivElement>(null);
+  const scrollToTalent = (index: number) => {
+    const reel = reelRef.current;
+    if (!reel) return;
+    const range = Math.max(0, reel.offsetHeight - window.innerHeight);
+    window.scrollTo({ top: reel.offsetTop + range * index / (talents.length - 1), behavior: "smooth" });
+  };
   return <section className="orbit" id="talent">
-    <div className="orbit-sticky">
-      <div className="static-cast-collage" aria-hidden="true">{talents.map((talent, index) => <figure key={talent.name}><img className="cast-primary" src={talent.image} alt="" loading="eager" decoding="async" /><div className="cast-strips">{Array.from({ length: 6 }, (_, strip) => <i key={strip} style={{ backgroundImage: `url(${talent.image})` }} />)}</div><img className="cast-echo" src={talent.image} alt="" loading="eager" decoding="async" /><figcaption><span>0{index + 1}</span><strong>{talent.name}</strong></figcaption></figure>)}</div>
-      <div className="orbit-serial" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
-      <div className="orbit-scan" aria-hidden="true" />
-      <div className="orbit-index"><span>REPRESENTED / 2026</span><span>03 TALENTS</span></div>
-      <div className="orbit-stages">
-        <article><small>01 / NOAH KIM</small><h2>A quiet presence built for long takes.</h2><p>Menswear, automotive and narrative film. He knows when to hold a frame and when to move through it.</p></article>
-        <article><small>02 / SOYEON HAN</small><h2>One expression can turn the scene.</h2><p>Beauty precision with the emotional range to carry narrative work in Seoul and Tokyo.</p></article>
-        <article><small>03 / MIRA SEO</small><h2>A performance that holds before it speaks.</h2><p>Narrative instinct and measured movement for film, editorial and character-led campaigns.</p></article>
+    <div className="casting-reel" ref={reelRef}>
+      <div className="orbit-sticky">
+        <div className="orbit-index"><span>CASTING REEL / REPRESENTED</span><span>03 TALENTS · 2026</span></div>
+        <div className="static-cast-collage" aria-hidden="true">
+          <div className="reel-aperture"><i /><i /><i /><i /><b /></div>
+          <div className="reel-frame-code"><span>01</span><span>02</span><span>03</span></div>
+          {talents.map((talent, index) => <figure key={talent.name}>
+            <img className="cast-primary" src={talent.image} alt="" loading="eager" decoding="async" />
+            <div className="reel-shutters">{Array.from({ length: 7 }, (_, slice) => <i key={slice} style={{ "--slice": slice, backgroundImage: `url(${talent.image})` } as CSSProperties} />)}</div>
+            <div className="reel-exposure" />
+            <figcaption><span>0{index + 1}</span><strong>{talent.name}</strong></figcaption>
+          </figure>)}
+        </div>
+        <div className="orbit-stages">
+          <article><small>01 / NOAH KIM</small><h2>A quiet presence built for long takes.</h2><p>Menswear, automotive and narrative film. He knows when to hold a frame and when to move through it.</p></article>
+          <article><small>02 / SOYEON HAN</small><h2>One expression can turn the scene.</h2><p>Beauty precision with the emotional range to carry narrative work in Seoul and Tokyo.</p></article>
+          <article><small>03 / MIRA SEO</small><h2>A performance that holds before it speaks.</h2><p>Narrative instinct and measured movement for film, editorial and character-led campaigns.</p></article>
+        </div>
+        <nav className="casting-index" aria-label="Casting reel index">{talents.map((talent, index) => <button key={talent.name} onClick={() => scrollToTalent(index)}><span>0{index + 1}</span><strong>{talent.name}</strong></button>)}</nav>
+        <div className="orbit-meter"><i><b /></i><span>SCROLL TO SHIFT THE CAST</span></div>
       </div>
-      <div className="orbit-meter"><i><b /></i><span>SCROLL TO SHIFT THE CAST</span></div>
     </div>
     <div className="talent-list">
-      <div className="talent-list-head"><span>REPRESENTED TALENT / 03</span><strong>SELECT A PROFILE</strong></div>
-      {talents.map((talent, index) => <button className="talent-row" key={talent.name} onClick={() => onSelect(talent)} aria-label={`Open ${talent.name} profile`}>
-        <span className="talent-no">0{index + 1}</span><span className="talent-thumb"><img src={talent.image} alt="" /></span><strong>{talent.name}</strong><span>{talent.role}</span><span>{talent.location}</span><i>↗</i>
-      </button>)}
+      <div className="talent-list-head"><span>ROSTER INDEX / 03</span><strong>SELECT A PROFILE</strong></div>
+      {talents.map((talent, index) => <TalentIndexRow talent={talent} index={index} key={talent.name} onSelect={() => onSelect(talent)} />)}
     </div>
   </section>;
 }
@@ -278,31 +314,16 @@ function Journal({ onSelect }: { onSelect: (project: Project) => void }) {
   </section>;
 }
 
-type OfficeItem = { title: string; type: string; live: boolean; image: string; updated: string };
-
-function Office() {
-  const [items, setItems] = useState<OfficeItem[]>([
-    { title: "Nocturne", type: "Campaign", live: true, image: "/nocturne-film-still-v3.png", updated: "2 min ago" },
-    { title: "Noah Kim", type: "Talent", live: true, image: "/talent-noah-v3.png", updated: "18 min ago" },
-    { title: "Field Note 07", type: "Journal", live: false, image: "/editorial-backstage-v1.png", updated: "1 hr ago" },
-  ]);
-  const [selected, setSelected] = useState(0);
-  const [uploadNote, setUploadNote] = useState("MP4 · MOV / MAX 500 MB");
-  const [saved, setSaved] = useState(true);
-  const item = items[selected];
-  const updateItems = (next: OfficeItem[]) => { setItems(next); setSaved(false); };
-  const toggle = () => updateItems(items.map((entry, index) => index === selected ? { ...entry, live: !entry.live } : entry));
-  const addItem = () => { const next = [...items, { title: `Untitled ${items.length + 1}`, type: "Campaign", live: false, image: "/soft-focus-beauty-v1.png", updated: "now" }]; setItems(next); setSelected(next.length - 1); setSaved(false); };
-  const removeItem = () => { if (items.length === 1) return; const next = items.filter((_, index) => index !== selected); setItems(next); setSelected(Math.max(0, selected - 1)); setSaved(false); };
-  const publish = () => { setItems(current => current.map((entry, index) => index === selected ? { ...entry, live: true, updated: "now" } : entry)); setSaved(true); };
-  const upload = (event: ChangeEvent<HTMLInputElement>) => { const file = event.target.files?.[0]; if (!file) return; setUploadNote(file.size > 500 * 1024 * 1024 ? "FILE EXCEEDS THE 500 MB LIMIT" : `${file.name} · READY`); setSaved(false); };
-  return <section className="office" id="office">
-    <header className="office-head reveal"><div><span>MANAGEMENT DESK / LIVE</span><h2>One desk for every profile and placement.</h2></div><p>Talent profiles, recent work and agency journal entries share one editing flow. Update media, availability and visibility without a developer.</p><ul><li><b>03</b> content types</li><li><b>01</b> live preview</li><li><b>500</b> MB upload</li></ul></header>
-    <div className="office-console reveal">
-      <aside><header><strong>CONTENT</strong><button onClick={addItem}>+ NEW</button></header>{items.map((entry, index) => <button key={`${entry.title}-${index}`} className={selected === index ? "active" : ""} onClick={() => setSelected(index)}><i>{entry.live ? "LIVE" : "DRAFT"}</i><span><strong>{entry.title}</strong><small>{entry.type} · {entry.updated}</small></span></button>)}</aside>
-      <div className="office-editor"><div className="editor-bar"><span>EDITING / {item.type.toUpperCase()}</span><b>{saved ? "ALL CHANGES SAVED" : "UNSAVED CHANGES"}</b></div><label>Title<input value={item.title} onChange={event => updateItems(items.map((entry, index) => index === selected ? { ...entry, title: event.target.value } : entry))} /></label><label>Visibility<button className={`visibility ${item.live ? "live" : ""}`} onClick={toggle} aria-pressed={item.live}><i />{item.live ? "PUBLIC" : "DRAFT"}</button></label><label className="upload">Media<input type="file" accept="video/mp4,video/quicktime,image/*" onChange={upload} /><span>DROP OR SELECT FILE</span><small>{uploadNote}</small></label><div className="editor-actions"><button onClick={removeItem} disabled={items.length === 1}>DELETE</button><button onClick={publish}>{saved && item.live ? "PUBLISHED" : "PUBLISH CHANGES"}</button></div></div>
-      <div className="office-preview"><header><span>LIVE PREVIEW</span><b>↗</b></header><div className="preview-frame"><img src={item.image} alt="" /><div><small>{item.type}</small><strong>{item.title}</strong><span>{item.live ? "PUBLIC" : "NOT PUBLISHED"}</span></div></div></div>
-    </div>
+function OperationsTeaser() {
+  const capabilities = [
+    ["01", "Talent profiles", "Portraits, reels, credits and availability"],
+    ["02", "Selected work", "Film, campaign and editorial case studies"],
+    ["03", "Agency journal", "Field notes, castings and announcements"],
+  ];
+  return <section className="operations-teaser" id="operations">
+    <header className="operations-head"><span>OPERATIONS / ONE EDITING FLOW</span><h2>Built to stay current.</h2><p>The public site stays focused on talent. Behind it, one working desk keeps every profile, placement and story up to date.</p></header>
+    <div className="operations-flow">{capabilities.map(([number, title, note]) => <article key={number}><span>{number}</span><strong>{title}</strong><p>{note}</p><i aria-hidden="true" /></article>)}</div>
+    <a className="operations-link" href="/studio"><span>View management demo</span><i aria-hidden="true">↗</i></a>
   </section>;
 }
 
@@ -335,26 +356,64 @@ function ProjectCase({ project, onClose }: { project: Project; onClose: () => vo
 }
 
 function Footer() {
-  return <footer className="footer"><div className="footer-call"><span>BOOKINGS / NEW BUSINESS</span><h2>Need the right talent for your next brief?</h2><a href="mailto:hello@assembly-seoul.com">Send a booking enquiry ↗</a></div><div className="footer-signal" aria-hidden="true"><i /><span>AVAILABLE FOR Q3 / 2026</span><i /></div><strong>ASSEMBLY</strong><div className="footer-bottom"><span>SEOUL · WORLDWIDE</span><span>TALENT MANAGEMENT · CASTING</span><span>© 2026 ASSEMBLY</span><a href="#top">Back to top ↑</a></div></footer>;
+  return <footer className="footer"><div className="footer-call"><span>BOOKINGS / NEW BUSINESS</span><h2>Need the right talent for your next brief?</h2><a href="mailto:hello@assembly-seoul.com">Send a booking enquiry<i aria-hidden="true">↗</i></a></div><div className="footer-signal" aria-hidden="true"><i /><span>AVAILABLE FOR Q3 / 2026</span><i /></div><strong>ASSEMBLY</strong><div className="footer-bottom"><span>SEOUL · WORLDWIDE</span><span>TALENT MANAGEMENT · CASTING</span><span>© 2026 ASSEMBLY</span><a href="#top">Back to top ↑</a></div></footer>;
 }
 
 export default function Home() {
   const rootRef = useRef<HTMLElement>(null);
+  const [introComplete, setIntroComplete] = useState(false);
   const [profile, setProfile] = useState<Talent | null>(null);
   const [project, setProject] = useState<Project | null>(null);
 
   useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const context = gsap.context(() => {
-      gsap.timeline()
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion || window.scrollY > 2) {
+      const skipFrame = window.requestAnimationFrame(() => setIntroComplete(true));
+      return () => window.cancelAnimationFrame(skipFrame);
+    }
+
+    let unlockTimer: number | undefined;
+    const preventScroll = (event: Event) => event.preventDefault();
+    const unlock = () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+    };
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+
+    const introContext = gsap.context(() => {
+      gsap.timeline({ onComplete: () => {
+        window.scrollTo(0, 0);
+        unlockTimer = window.setTimeout(() => {
+          unlock();
+          setIntroComplete(true);
+        }, 90);
+      } })
         .from(".intro-meta span,.intro-foot>*", { y: 12, opacity: 0, duration: 0.3, stagger: 0.05 })
         .fromTo(".intro-frames figure", { clipPath: "inset(100% 0 0 0)", yPercent: 16 }, { clipPath: "inset(0% 0 0 0)", yPercent: 0, duration: 0.7, stagger: 0.09, ease: "power4.out" }, 0.05)
         .from(".intro-word span", { yPercent: 125, rotate: 2, duration: 0.8, ease: "power4.out" }, 0.18)
         .from(".intro-count", { scale: .7, opacity: 0, duration: .45, ease: "power3.out" }, .42)
         .to(".intro-frames figure", { xPercent: index => (index - 1) * 9, duration: .6, ease: "power3.inOut" }, .95)
         .to(".intro-panels i", { scaleY: 1, duration: 0.46, stagger: 0.035, ease: "power3.inOut" }, 1.22)
-        .to(".intro", { yPercent: -100, duration: 0.78, ease: "power4.inOut" }, 1.72)
-        .from(".hero-title h1,.hero-copy,.hero-focus,.hero-topline", { y: 50, opacity: 0, duration: 0.8, stagger: 0.06, ease: "power3.out" }, 1.82);
+        .to(".intro", { yPercent: -100, duration: 0.78, ease: "power4.inOut" }, 1.72);
+    }, rootRef);
+
+    return () => {
+      if (unlockTimer) window.clearTimeout(unlockTimer);
+      unlock();
+      introContext.revert();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!introComplete) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const context = gsap.context(() => {
+      gsap.from(".hero-title h1,.hero-copy,.hero-focus,.hero-topline", { y: 42, opacity: 0, duration: .82, stagger: .055, ease: "power3.out" });
 
       const heroSteps = gsap.utils.toArray<HTMLElement>(".hero-sequence span");
       const titleSlices = gsap.utils.toArray<HTMLElement>(".hero-title-slices span");
@@ -395,36 +454,57 @@ export default function Home() {
       gsap.utils.toArray<HTMLElement>(".reveal:not(.journal-head):not(.journal-lead):not(.office-head):not(.office-console)").forEach(element => gsap.from(element, { y: 70, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 84%" } }));
 
       const rosterCards = gsap.utils.toArray<HTMLElement>(".static-cast-collage figure");
+      const rosterPrimaryImages = gsap.utils.toArray<HTMLElement>(".static-cast-collage .cast-primary");
       const rosterCopy = gsap.utils.toArray<HTMLElement>(".orbit-stages article");
-      const rosterSerials = gsap.utils.toArray<HTMLElement>(".orbit-serial span");
-      const rosterEchoes = gsap.utils.toArray<HTMLElement>(".cast-echo");
-      const rosterStrips = gsap.utils.toArray<HTMLElement>(".cast-strips");
-      gsap.set(rosterCards, { xPercent: index => index === 0 ? -50 : index === 1 ? 45 : 115, scale: index => index === 0 ? 1 : .78, rotateY: index => index === 0 ? 0 : -18, opacity: index => index === 0 ? 1 : 0, clipPath: index => index === 0 ? "inset(0% 0% 0% 0%)" : "inset(0% 100% 0% 0%)", transformPerspective: 1100 });
-      gsap.set(rosterCopy, { autoAlpha: index => index === 0 ? 1 : 0, y: index => index === 0 ? 0 : 32 });
-      gsap.set(rosterSerials, { autoAlpha: index => index === 0 ? 1 : 0, yPercent: index => index === 0 ? 0 : 35 });
-      gsap.set(rosterEchoes, { xPercent: -7, autoAlpha: 0 });
-      gsap.set(rosterStrips, { autoAlpha: 0 });
-      rosterStrips.forEach(strips => gsap.set(strips.children, { xPercent: 0 }));
-      gsap.set(".talent-list-head", { autoAlpha: 0, y: 24 });
-      gsap.timeline({ scrollTrigger: { trigger: ".orbit", start: "top top", end: "bottom bottom", scrub: 1.45 } })
-        .to(".orbit-scan", { yPercent: 1650, duration: 1, ease: "none" }, 0)
+      const rosterIndexItems = gsap.utils.toArray<HTMLElement>(".casting-index button");
+      const rosterShutters = gsap.utils.toArray<HTMLElement>(".reel-shutters");
+      const rosterExposure = gsap.utils.toArray<HTMLElement>(".reel-exposure");
+      const rosterFrameCodes = gsap.utils.toArray<HTMLElement>(".reel-frame-code span");
+      gsap.set(rosterCards, { autoAlpha: index => index === 0 ? 1 : 0, z: index => index === 0 ? 0 : 180, scale: index => index === 0 ? 1 : 1.12, rotateY: index => index === 0 ? 0 : 4, transformPerspective: 1100, transformOrigin: "center center" });
+      gsap.set(rosterPrimaryImages, { autoAlpha: index => index === 0 ? 1 : 0 });
+      gsap.set(rosterShutters, { autoAlpha: 0 });
+      rosterShutters.forEach(shutters => gsap.set(shutters.children, { scaleY: 0, yPercent: index => index % 2 ? 18 : -18, transformOrigin: index => index % 2 ? "center bottom" : "center top" }));
+      gsap.set(rosterExposure, { autoAlpha: 0, xPercent: -120 });
+      gsap.set(rosterFrameCodes, { autoAlpha: index => index === 0 ? 1 : 0, yPercent: index => index === 0 ? 0 : 55 });
+      gsap.set(rosterCopy, { autoAlpha: index => index === 0 ? 1 : 0, y: index => index === 0 ? 0 : 30 });
+      gsap.set(rosterIndexItems, { opacity: index => index === 0 ? 1 : .3 });
+      const castingTimeline = gsap.timeline({ scrollTrigger: { trigger: ".casting-reel", start: "top top", end: "bottom bottom", scrub: 1.12, invalidateOnRefresh: true } })
         .to(".orbit-meter b", { scaleX: 1, duration: 1, ease: "none" }, 0)
-        .to(rosterCards[0], { xPercent: -138, scale: .84, rotateY: 10, opacity: .16, filter: "blur(2px)", duration: .36, ease: "power2.inOut" }, .12)
-        .to(rosterCards[1], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .4, ease: "power2.inOut" }, .13)
-        .fromTo(rosterStrips[1], { autoAlpha: 0 }, { autoAlpha: .22, duration: .16, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
-        .to(rosterStrips[1].children, { xPercent: index => index % 2 ? 3 : -3, duration: .2, stagger: .016, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
-        .fromTo(rosterEchoes[1], { autoAlpha: 0, xPercent: -3 }, { autoAlpha: .14, xPercent: 3, duration: .18, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
-        .to(rosterSerials[0], { autoAlpha: 0, yPercent: -18, duration: .16 }, .25).fromTo(rosterSerials[1], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: .18 }, .27)
-        .to(rosterCopy[0], { autoAlpha: 0, y: -18, duration: .16 }, .24).fromTo(rosterCopy[1], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .2 }, .27)
-        .to(rosterCards[1], { xPercent: -138, scale: .84, rotateY: 10, opacity: .16, filter: "blur(2px)", duration: .36, ease: "power2.inOut" }, .51)
-        .to(rosterCards[2], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .4, ease: "power2.inOut" }, .52)
-        .fromTo(rosterStrips[2], { autoAlpha: 0 }, { autoAlpha: .22, duration: .16, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
-        .to(rosterStrips[2].children, { xPercent: index => index % 2 ? -3 : 3, duration: .2, stagger: .016, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
-        .fromTo(rosterEchoes[2], { autoAlpha: 0, xPercent: -3 }, { autoAlpha: .14, xPercent: 3, duration: .18, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
-        .to(rosterSerials[1], { autoAlpha: 0, yPercent: -18, duration: .16 }, .64).fromTo(rosterSerials[2], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: .18 }, .66)
-        .to(rosterCopy[1], { autoAlpha: 0, y: -18, duration: .16 }, .63).fromTo(rosterCopy[2], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .2 }, .66)
-        .to(".orbit-meter,.static-cast-collage,.orbit-stages,.orbit-serial,.orbit-scan", { autoAlpha: 0, duration: .14 }, .9)
-        .to(".talent-list-head", { autoAlpha: 1, y: 0, duration: .12 }, .91);
+        .to(".reel-aperture b", { xPercent: 760, duration: 1, ease: "none" }, 0)
+        .to(rosterCards[0], { z: -240, scale: .84, rotateY: -7, autoAlpha: .12, filter: "blur(7px) brightness(.45)", duration: .24, ease: "power3.inOut" }, .15)
+        .fromTo(rosterCards[1], { autoAlpha: 0, z: 180, scale: 1.12, rotateY: 4 }, { autoAlpha: 1, z: 0, scale: 1, rotateY: 0, duration: .25, ease: "power4.out" }, .16)
+        .fromTo(rosterPrimaryImages[1], { autoAlpha: .16 }, { autoAlpha: .42, duration: .16, ease: "power2.out" }, .16)
+        .set(rosterShutters[1], { autoAlpha: 1 }, .16)
+        .to(rosterShutters[1].children, { scaleY: 1, yPercent: 0, duration: .17, stagger: { each: .013, from: "edges" }, ease: "power4.inOut" }, .16)
+        .fromTo(rosterExposure[1], { autoAlpha: 0, xPercent: -120 }, { autoAlpha: .72, xPercent: 120, duration: .2, ease: "power2.inOut" }, .19)
+        .set(rosterPrimaryImages[1], { autoAlpha: 1 }, .315)
+        .to(rosterShutters[1], { autoAlpha: 0, duration: .045 }, .315)
+        .to(rosterCards[0], { autoAlpha: 0, duration: .05 }, .32)
+        .set(rosterCards[0], { autoAlpha: 0 }, .4)
+        .to(rosterCopy[0], { autoAlpha: 0, y: -22, duration: .1 }, .15)
+        .fromTo(rosterCopy[1], { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: .18, ease: "power3.out" }, .23)
+        .to(rosterIndexItems[0], { opacity: .3, duration: .12 }, .18)
+        .to(rosterIndexItems[1], { opacity: 1, duration: .12 }, .2)
+        .to(rosterFrameCodes[0], { autoAlpha: 0, yPercent: -55, duration: .12 }, .19)
+        .fromTo(rosterFrameCodes[1], { autoAlpha: 0, yPercent: 55 }, { autoAlpha: 1, yPercent: 0, duration: .14 }, .22)
+        .to(rosterCards[1], { z: -240, scale: .84, rotateY: -7, autoAlpha: .12, filter: "blur(7px) brightness(.45)", duration: .24, ease: "power3.inOut" }, .51)
+        .fromTo(rosterCards[2], { autoAlpha: 0, z: 180, scale: 1.12, rotateY: 4 }, { autoAlpha: 1, z: 0, scale: 1, rotateY: 0, duration: .25, ease: "power4.out" }, .52)
+        .fromTo(rosterPrimaryImages[2], { autoAlpha: .16 }, { autoAlpha: .42, duration: .16, ease: "power2.out" }, .52)
+        .set(rosterShutters[2], { autoAlpha: 1 }, .52)
+        .to(rosterShutters[2].children, { scaleY: 1, yPercent: 0, duration: .17, stagger: { each: .013, from: "edges" }, ease: "power4.inOut" }, .52)
+        .fromTo(rosterExposure[2], { autoAlpha: 0, xPercent: -120 }, { autoAlpha: .72, xPercent: 120, duration: .2, ease: "power2.inOut" }, .55)
+        .set(rosterPrimaryImages[2], { autoAlpha: 1 }, .675)
+        .to(rosterShutters[2], { autoAlpha: 0, duration: .045 }, .675)
+        .to(rosterCards[1], { autoAlpha: 0, duration: .05 }, .68)
+        .set(rosterCards[1], { autoAlpha: 0 }, .76)
+        .to(rosterCopy[1], { autoAlpha: 0, y: -22, duration: .1 }, .51)
+        .fromTo(rosterCopy[2], { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: .18, ease: "power3.out" }, .59)
+        .to(rosterIndexItems[1], { opacity: .3, duration: .12 }, .54)
+        .to(rosterIndexItems[2], { opacity: 1, duration: .12 }, .56)
+        .to(rosterFrameCodes[1], { autoAlpha: 0, yPercent: -55, duration: .12 }, .55)
+        .fromTo(rosterFrameCodes[2], { autoAlpha: 0, yPercent: 55 }, { autoAlpha: 1, yPercent: 0, duration: .14 }, .58);
+
+      castingTimeline.to(".reel-aperture", { scale: 1.018, duration: .5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
 
       gsap.from(".section-head h2", { clipPath: "inset(0 0 100% 0)", yPercent: 24, duration: 1.15, ease: "power4.out", scrollTrigger: { trigger: ".section-head", start: "top 76%" } });
       gsap.from(".work-filters button", { y: 18, opacity: 0, stagger: .07, duration: .55, scrollTrigger: { trigger: ".work-filters", start: "top 88%" } });
@@ -444,11 +524,9 @@ export default function Home() {
       gsap.to(".journal-image img", { yPercent: -5, scale: 1.035, ease: "none", scrollTrigger: { trigger: ".journal-lead", start: "top bottom", end: "bottom top", scrub: 1.4 } });
       gsap.from(".journal-lead > div:last-child > *", { y: 26, opacity: 0, stagger: .09, duration: .68, ease: "power3.out", scrollTrigger: { trigger: ".journal-lead", start: "top 76%" } });
       gsap.from(".journal-grid article", { x: index => index ? 42 : -42, y: 28, opacity: 0, stagger: .12, duration: .88, ease: "power3.out", scrollTrigger: { trigger: ".journal-grid", start: "top 86%" } });
-      gsap.from(".office-head h2,.office-head p", { y: 38, opacity: 0, stagger: .11, duration: .82, ease: "power3.out", scrollTrigger: { trigger: ".office-head", start: "top 84%" } });
-      gsap.from(".office-head li", { x: 24, opacity: 0, stagger: .09, duration: .6, ease: "power3.out", scrollTrigger: { trigger: ".office-head", start: "top 72%" } });
-      gsap.from(".office-console", { clipPath: "inset(0 0 8% 0)", y: 54, opacity: .2, scale: .985, transformOrigin: "top center", duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".office-console", start: "top 88%" } });
-      gsap.from(".office-console > aside,.office-editor,.office-preview", { y: 30, opacity: 0, stagger: .12, duration: .72, ease: "power3.out", scrollTrigger: { trigger: ".office-console", start: "top 76%" } });
-      gsap.to(".preview-frame img", { scale: 1.07, yPercent: -2.5, ease: "none", scrollTrigger: { trigger: ".office-console", start: "top bottom", end: "bottom top", scrub: 1.5 } });
+      gsap.from(".operations-head > *", { y: 34, opacity: 0, stagger: .1, duration: .78, ease: "power3.out", scrollTrigger: { trigger: ".operations-teaser", start: "top 78%" } });
+      gsap.from(".operations-flow article", { y: 42, opacity: 0, stagger: .1, duration: .82, ease: "power3.out", scrollTrigger: { trigger: ".operations-flow", start: "top 86%" } });
+      gsap.from(".operations-link", { x: -28, opacity: 0, duration: .72, ease: "power3.out", scrollTrigger: { trigger: ".operations-link", start: "top 91%" } });
       gsap.from(".footer-call > span,.footer-call > a", { y: 24, opacity: 0, stagger: .12, duration: .68, ease: "power3.out", scrollTrigger: { trigger: ".footer", start: "top 78%" } });
       gsap.from(".footer-call h2", { clipPath: "inset(0 0 100% 0)", yPercent: 20, duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".footer", start: "top 78%" } });
       gsap.from(".footer-signal i", { scaleX: 0, duration: 1, transformOrigin: "center", scrollTrigger: { trigger: ".footer", start: "top 64%" } });
@@ -458,7 +536,7 @@ export default function Home() {
     const refreshOnLoad = () => ScrollTrigger.refresh();
     window.addEventListener("load", refreshOnLoad, { once: true });
     return () => { window.clearTimeout(refreshTimer); window.removeEventListener("load", refreshOnLoad); context.revert(); };
-  }, []);
+  }, [introComplete]);
 
   useEffect(() => {
     const locked = Boolean(profile || project);
@@ -466,5 +544,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-14"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-16">{introComplete ? null : <Intro />}<div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><OperationsTeaser /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }

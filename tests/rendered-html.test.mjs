@@ -5,7 +5,7 @@ import { createServer } from "node:net";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-async function render() {
+async function render(path = "/") {
   const port = await new Promise((resolve, reject) => {
     const server = createServer();
     server.once("error", reject);
@@ -23,7 +23,7 @@ async function render() {
   for (let attempt = 0; attempt < 80; attempt += 1) {
     if (server.exitCode !== null) throw new Error(`Next.js exited before serving HTML (${server.exitCode})`);
     try {
-      const response = await fetch(url, { headers: { accept: "text/html" } });
+      const response = await fetch(`${url}${path}`, { headers: { accept: "text/html" } });
       if (response.ok) return { response, stop: () => server.kill("SIGTERM") };
     } catch {}
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -47,15 +47,30 @@ test("server-renders the ASSEMBLY talent management site", async () => {
   assert.match(html, /MIRA SEO/);
   assert.match(html, /NOCTURNE/);
   assert.match(html, /AGENCY JOURNAL \/ 07/);
-  assert.match(html, /MANAGEMENT DESK \/ LIVE/);
+  assert.match(html, /Built to stay current\./);
+  assert.match(html, /View management demo/);
   assert.match(html, /Our roster, on screen\./);
-  assert.match(html, /One desk for every profile and placement\./);
+  assert.doesNotMatch(html, /MANAGEMENT DESK \/ LIVE/);
   assert.doesNotMatch(html, /[가-힣]|PROPOSAL|WHAT THIS SITE PROVES/);
 });
 
+test("serves the interactive management studio separately", async () => {
+  const { response, stop } = await render("/studio");
+  const html = await response.text();
+  stop();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /MANAGEMENT STUDIO \/ INTERACTIVE DEMO/);
+  assert.match(html, /MANAGEMENT DESK \/ LIVE/);
+  assert.match(html, /One desk for every profile and placement\./);
+  assert.match(html, /PUBLISHED/);
+});
+
 test("uses GSAP, video, Three.js and interactive content tools", async () => {
-  const [page, threeRoom, css, layout, packageJson] = await Promise.all([
+  const [page, managementStudio, studioPage, threeRoom, css, layout, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/management-studio.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/studio/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/three-casting-room.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
@@ -66,7 +81,8 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(page, /ThreeCastingRoom/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-14/);
+  assert.match(page, /assembly-static-16/);
+  assert.match(page, /reel-shutters/);
   assert.doesNotMatch(page, /header-place/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
@@ -79,7 +95,7 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(page, /MOTION PREVIEW/);
   assert.match(page, /onMouseEnter={startPreview}/);
   assert.match(page, /aria-pressed/);
-  assert.match(page, /type="file"/);
+  assert.match(managementStudio, /type="file"/);
   assert.match(page, /reelImages/);
   assert.doesNotMatch(page, /className="project-layer"/);
   assert.match(page, /soft-focus-beauty-v1\.png/);
@@ -88,16 +104,18 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(threeRoom, /ShaderMaterial/);
   assert.match(threeRoom, /IntersectionObserver/);
   assert.match(threeRoom, /renderer\.dispose/);
-  assert.match(page, /orbit-serial/);
-  assert.match(page, /cast-echo/);
+  assert.match(page, /casting-index/);
+  assert.match(page, /talentPreviewVideos/);
   assert.match(page, /hero-stage/);
   assert.match(page, /hero-title-slices/);
   assert.match(page, /SELECTED\./);
   assert.doesNotMatch(page, /gsap\.to\("\.footer > strong"/);
   assert.match(page, /ADDED TO SHORTLIST/);
+  assert.match(page, /Send a booking enquiry/);
   assert.match(page, /BACK TO ROSTER/);
   assert.match(page, /BACK TO WORK/);
-  assert.match(page, /PUBLISH CHANGES/);
+  assert.match(managementStudio, /PUBLISH CHANGES/);
+  assert.match(studioPage, /ManagementStudio/);
   assert.doesNotMatch(page, /[가-힣]/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /word-break:\s*keep-all/);
