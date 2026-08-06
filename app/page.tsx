@@ -201,7 +201,6 @@ export default function Home() {
       gsap.to(".journal-head-media img:first-child", { yPercent: -18, rotate: -3, ease: "none", scrollTrigger: { trigger: ".journal", start: "top bottom", end: "bottom top", scrub: .7 } });
       gsap.to(".journal-head-media img:last-child", { yPercent: 22, rotate: 4, ease: "none", scrollTrigger: { trigger: ".journal", start: "top bottom", end: "bottom top", scrub: .7 } });
       gsap.from(".office-console", { clipPath: "inset(0 0 100% 0)", y: 45, duration: 1.1, ease: "power4.out", scrollTrigger: { trigger: ".office-console", start: "top 82%" } });
-      gsap.from(".footer-reel img", { yPercent: 85, rotate: index => (index - 1) * 7, duration: 1, stagger: .08, ease: "power4.out", scrollTrigger: { trigger: ".footer", start: "top 72%" } });
       ScrollTrigger.create({ start: 0, end: "max", onUpdate: self => document.documentElement.style.setProperty("--progress", `${self.progress * 100}%`) });
     }, rootRef);
     const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 900);
@@ -218,5 +217,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; window.removeEventListener("keydown", close); };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-03"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-04"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }
