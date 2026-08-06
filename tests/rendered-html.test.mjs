@@ -81,12 +81,14 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(page, /ThreeCastingRoom/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-22/);
+  assert.match(page, /assembly-static-24/);
   assert.match(css, /\.hero-stage > \.hero-final\s*\{\s*opacity:\s*0;\s*visibility:\s*hidden;/);
   assert.match(css, /ASSEMBLY \/ HERO ENTRANCE GUARD 22/);
-  assert.match(page, /gsap\.to\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline"/);
+  assert.match(page, /\.set\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline", \{ autoAlpha: 1 \}, 1\.62\)/);
+  assert.match(page, /gsap\.set\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline", \{ autoAlpha: 1 \}\)/);
+  assert.doesNotMatch(page, /gsap\.to\("\.hero-copy,\.hero-focus,\.hero-topline"/);
   assert.doesNotMatch(page, /gsap\.from\("\.hero-title h1,\.hero-copy,\.hero-focus,\.hero-topline"/);
-  assert.doesNotMatch(page, /gsap\.to\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline", \{ y:/);
+  assert.doesNotMatch(page, /gsap\.to\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline"/);
   assert.match(page, /reel-shutters/);
   assert.doesNotMatch(page, /header-place/);
   assert.match(page, /ScrollTrigger\.refresh/);

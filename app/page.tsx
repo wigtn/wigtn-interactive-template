@@ -399,6 +399,7 @@ export default function Home() {
         .from(".intro-count", { scale: .7, opacity: 0, duration: .45, ease: "power3.out" }, .42)
         .to(".intro-frames figure", { xPercent: index => (index - 1) * 9, duration: .6, ease: "power3.inOut" }, .95)
         .to(".intro-panels i", { scaleY: 1, duration: 0.46, stagger: 0.035, ease: "power3.inOut" }, 1.22)
+        .set(".hero-title,.hero-copy,.hero-focus,.hero-topline", { autoAlpha: 1 }, 1.62)
         .to(".intro", { yPercent: -100, duration: 0.78, ease: "power4.inOut" }, 1.72);
     }, rootRef);
 
@@ -413,7 +414,7 @@ export default function Home() {
     if (!introComplete) return;
     gsap.registerPlugin(ScrollTrigger);
     const context = gsap.context(() => {
-      gsap.to(".hero-title,.hero-copy,.hero-focus,.hero-topline", { autoAlpha: 1, duration: .58, stagger: .035, ease: "power2.out" });
+      gsap.set(".hero-title,.hero-copy,.hero-focus,.hero-topline", { autoAlpha: 1 });
 
       const heroSteps = gsap.utils.toArray<HTMLElement>(".hero-sequence span");
       const titleSlices = gsap.utils.toArray<HTMLElement>(".hero-title-slices span");
@@ -544,5 +545,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-22">{introComplete ? null : <Intro />}<div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><OperationsTeaser /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-24">{introComplete ? null : <Intro />}<div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><OperationsTeaser /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }
