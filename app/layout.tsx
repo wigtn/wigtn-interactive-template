@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 
@@ -13,12 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const notoSansKr = Noto_Sans_KR({
-  variable: "--font-korean",
-  preload: false,
-  display: "swap",
-});
-
 export async function generateMetadata(): Promise<Metadata> {
   const incoming = await headers();
   const host = incoming.get("x-forwarded-host") ?? incoming.get("host") ?? "localhost:3000";
@@ -27,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "ASSEMBLY — Casting Office, Seoul",
-    description: "광고와 필름을 위한 모델·배우 캐스팅, 무빙 테스트와 일정 관리를 한 번에 제공하는 서울 캐스팅 오피스.",
+    description: "Model and actor casting, motion tests and campaign production from an independent Seoul office.",
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
     openGraph: {
       title: "ASSEMBLY — Casting Office, Seoul",
@@ -45,14 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <head>
         <link rel="preload" href="/talent-noah-v2.jpg" as="image" />
         <link rel="preload" href="/cast-hero-v2.jpg" as="image" />
         <link rel="preload" href="/editorial-backstage-v2.jpg" as="image" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSansKr.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>

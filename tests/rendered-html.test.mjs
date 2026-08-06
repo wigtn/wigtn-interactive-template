@@ -27,7 +27,9 @@ test("server-renders the ASSEMBLY casting office site", async () => {
   assert.match(html, /NOCTURNE/);
   assert.match(html, /FIELD NOTES \/ 07/);
   assert.match(html, /CONTENT DESK \/ LIVE/);
-  assert.doesNotMatch(html, /공고|포트폴리오|PROPOSAL|WHAT THIS SITE PROVES/);
+  assert.match(html, /Faces, placed in motion\./);
+  assert.match(html, /Publish without breaking the frame\./);
+  assert.doesNotMatch(html, /[가-힣]|PROPOSAL|WHAT THIS SITE PROVES/);
 });
 
 test("uses GSAP, video and interactive content tools without Three.js", async () => {
@@ -42,7 +44,7 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.doesNotMatch(page, /AssemblyScene/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-04/);
+  assert.match(page, /assembly-static-05/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
@@ -50,7 +52,13 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.match(page, /aria-pressed/);
   assert.match(page, /type="file"/);
   assert.match(page, /reelImages/);
-  assert.match(page, /project-layer/);
+  assert.doesNotMatch(page, /className="project-layer"/);
+  assert.match(page, /soft-focus-beauty-v1\.png/);
+  assert.match(page, /ADDED TO SHORTLIST/);
+  assert.match(page, /BACK TO ROSTER/);
+  assert.match(page, /BACK TO WORK/);
+  assert.match(page, /PUBLISH CHANGES/);
+  assert.doesNotMatch(page, /[가-힣]/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /word-break:\s*keep-all/);
   assert.doesNotMatch(page, /<br\s*\/?\s*>/i);
@@ -62,5 +70,6 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
     access(new URL("../public/talent-noah-v2.jpg", import.meta.url)),
     access(new URL("../public/cast-hero-v2.jpg", import.meta.url)),
     access(new URL("../public/editorial-backstage-v2.jpg", import.meta.url)),
+    access(new URL("../public/soft-focus-beauty-v1.png", import.meta.url)),
   ]);
 });
