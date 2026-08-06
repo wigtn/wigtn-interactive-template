@@ -413,12 +413,12 @@ export default function Home() {
     if (!introComplete) return;
     gsap.registerPlugin(ScrollTrigger);
     const context = gsap.context(() => {
-      gsap.from(".hero-title h1,.hero-copy,.hero-focus,.hero-topline", { y: 42, opacity: 0, duration: .82, stagger: .055, ease: "power3.out" });
+      gsap.to(".hero-title,.hero-copy,.hero-focus,.hero-topline", { autoAlpha: 1, duration: .58, stagger: .035, ease: "power2.out" });
 
       const heroSteps = gsap.utils.toArray<HTMLElement>(".hero-sequence span");
       const titleSlices = gsap.utils.toArray<HTMLElement>(".hero-title-slices span");
       gsap.set(heroSteps, { opacity: .24 });
-      gsap.set(".hero-final", { autoAlpha: 0, y: 28 });
+      gsap.set(".hero-final", { autoAlpha: 0, xPercent: 0, y: 28 });
       gsap.set(titleSlices, { autoAlpha: 0, xPercent: 0 });
       gsap.set(".hero-readout", { autoAlpha: 0 });
       gsap.set(".hero-resolve", { autoAlpha: 0 });
@@ -544,5 +544,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-16">{introComplete ? null : <Intro />}<div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><OperationsTeaser /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-22">{introComplete ? null : <Intro />}<div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><OperationsTeaser /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }

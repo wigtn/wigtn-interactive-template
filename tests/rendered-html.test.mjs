@@ -81,7 +81,12 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(page, /ThreeCastingRoom/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-16/);
+  assert.match(page, /assembly-static-22/);
+  assert.match(css, /\.hero-stage > \.hero-final\s*\{\s*opacity:\s*0;\s*visibility:\s*hidden;/);
+  assert.match(css, /ASSEMBLY \/ HERO ENTRANCE GUARD 22/);
+  assert.match(page, /gsap\.to\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline"/);
+  assert.doesNotMatch(page, /gsap\.from\("\.hero-title h1,\.hero-copy,\.hero-focus,\.hero-topline"/);
+  assert.doesNotMatch(page, /gsap\.to\("\.hero-title,\.hero-copy,\.hero-focus,\.hero-topline", \{ y:/);
   assert.match(page, /reel-shutters/);
   assert.doesNotMatch(page, /header-place/);
   assert.match(page, /ScrollTrigger\.refresh/);

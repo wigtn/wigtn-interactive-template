@@ -1068,6 +1068,14 @@ main { background: var(--black); }
   .overlay,.overlay-reveal,.case-frame-stack > img,.case-process > div > button,.profile-links button { animation: none !important; transition-duration: .01ms !important; }
 }
 
+/* ASSEMBLY / HERO FINAL MATTE 17 */
+@media (min-width: 761px) {
+  .hero-stage > .hero-final { left: clamp(32px,5vw,76px); top: 18vh; width: min(36vw,500px); max-width: none; padding: 25px 28px 28px; transform: none; text-align: left; border-top: 1px solid rgba(242,238,230,.34); border-bottom: 1px solid rgba(242,238,230,.2); background: linear-gradient(135deg,rgba(7,7,10,.96),rgba(10,10,14,.82)); box-shadow: 28px 34px 90px rgba(0,0,0,.3); backdrop-filter: blur(18px); }
+  .hero-stage > .hero-final::before { content: ""; position: absolute; left: 0; top: 24px; bottom: 28px; width: 2px; background: var(--vermilion); box-shadow: 0 0 18px rgba(228,72,50,.48); }
+  .hero-stage > .hero-final strong { font-size: clamp(3.6rem,5.5vw,6.2rem); line-height: .8; }
+  .hero-stage > .hero-final p { max-width: 30ch; margin: 24px 0 0; }
+}
+
 /* ASSEMBLY / STRUCTURE PASS 15.1 */
 .orbit { min-height: 0; overflow: visible; background: #0b0b0d; }
 .casting-reel { position: relative; height: 285svh; background: radial-gradient(circle at 32% 42%,#17171c 0,transparent 42%),#0b0b0d; }
@@ -1121,7 +1129,8 @@ main { background: var(--black); }
 .orbit > .talent-list .talent-row:focus-visible { height: clamp(144px,15vw,210px); padding: 18px 0; grid-template-columns: 48px minmax(160px,22vw) minmax(230px,1.4fr) .72fr .72fr 30px; color: var(--ivory); background: transparent; }
 .orbit > .talent-list .talent-row:hover,.orbit > .talent-list .talent-row:focus-visible { color: var(--vermilion); }
 .orbit > .talent-list .talent-thumb { position: relative; width: 100%; height: 100%; display: block; opacity: 1; clip-path: inset(0); transform: none; background: #15151a; }
-.orbit > .talent-list .talent-thumb img,.orbit > .talent-list .talent-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 28%; filter: grayscale(.72) contrast(1.08); transform: scale(1.01); transition: opacity .48s ease,transform .9s cubic-bezier(.16,1,.3,1),filter .48s ease; }
+.orbit > .talent-list .talent-thumb img,.orbit > .talent-list .talent-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.72) contrast(1.08); transform: scale(1.01); transition: opacity .48s ease,transform .9s cubic-bezier(.16,1,.3,1),filter .48s ease; }
+.orbit > .talent-list .talent-thumb img { object-position: center top; }
 .orbit > .talent-list .talent-thumb video { z-index: 1; opacity: 0; filter: grayscale(.18) contrast(1.06); }
 .orbit > .talent-list .talent-row.is-previewing .talent-thumb img { opacity: 0; }
 .orbit > .talent-list .talent-row.is-previewing .talent-thumb video { opacity: 1; transform: scale(1.035); }
@@ -1207,3 +1216,26 @@ main { background: var(--black); }
   .reel-shutters,.reel-exposure,.reel-aperture b { display: none; }
   .reel-aperture { transform: none !important; }
 }
+
+/* ASSEMBLY / HERO COPY CONTRAST 19 */
+.hero-stage > .hero-copy { position: relative; isolation: isolate; }
+.hero-stage > .hero-copy::before { content: ""; position: absolute; z-index: 0; inset: -26px -68px -24px -30px; background: radial-gradient(ellipse at 18% 50%,rgba(5,5,8,.9) 0,rgba(5,5,8,.66) 48%,rgba(5,5,8,0) 78%); filter: blur(5px); pointer-events: none; }
+.hero-stage > .hero-copy > * { position: relative; z-index: 1; }
+.hero-stage > .hero-copy p { color: rgba(246,243,236,.92); font-weight: 470; line-height: 1.48; letter-spacing: -.018em; text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+
+@media (max-width: 760px) {
+  .hero-stage > .hero-copy::before { inset: -18px -24px -18px -18px; background: linear-gradient(90deg,rgba(5,5,8,.88),rgba(5,5,8,.5) 72%,transparent); filter: blur(3px); }
+}
+
+/* ASSEMBLY / HERO PREPAINT GUARD 20 */
+.hero-stage > .hero-final { opacity: 0; visibility: hidden; }
+.hero-stage > .hero-readout,
+.hero-stage > .hero-resolve,
+.hero-stage .hero-title-slices span,
+.hero-stage .hero-title-gate { opacity: 0; visibility: hidden; }
+
+/* ASSEMBLY / HERO ENTRANCE GUARD 22 */
+.hero-stage > .hero-title,
+.hero-stage > .hero-copy,
+.hero-stage > .hero-focus,
+.hero-stage > .hero-topline { opacity: 0; visibility: hidden; will-change: opacity; }
