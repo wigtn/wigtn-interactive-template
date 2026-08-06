@@ -22,16 +22,16 @@ export async function generateMetadata(): Promise<Metadata> {
   const image = `${protocol}://${host}/og-assembly-v1.png`;
 
   return {
-    title: "ASSEMBLY — Casting Office, Seoul",
-    description: "Model and actor casting, motion tests and campaign production from an independent Seoul office.",
+    title: "ASSEMBLY — Talent Management, Seoul",
+    description: "Independent talent management agency representing models and actors for film, fashion and beauty.",
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
     openGraph: {
-      title: "ASSEMBLY — Casting Office, Seoul",
-      description: "Model and actor casting for film and campaign production in Seoul.",
+      title: "ASSEMBLY — Talent Management, Seoul",
+      description: "Models and actors represented for film, fashion and beauty in Seoul and worldwide.",
       type: "website",
-      images: [{ url: image, width: 1536, height: 1024, alt: "ASSEMBLY — Casting Office, Seoul" }],
+      images: [{ url: image, width: 1536, height: 1024, alt: "ASSEMBLY — Talent Management, Seoul" }],
     },
-    twitter: { card: "summary_large_image", title: "ASSEMBLY — Casting Office, Seoul", description: "Model and actor casting for film and campaign production in Seoul.", images: [image] },
+    twitter: { card: "summary_large_image", title: "ASSEMBLY — Talent Management, Seoul", description: "Models and actors represented for film, fashion and beauty in Seoul and worldwide.", images: [image] },
   };
 }
 

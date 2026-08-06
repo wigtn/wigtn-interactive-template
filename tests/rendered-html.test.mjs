@@ -1,34 +1,55 @@
 import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
 import { access, readFile } from "node:fs/promises";
+import { createServer } from "node:net";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-  return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const port = await new Promise((resolve, reject) => {
+    const server = createServer();
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const address = server.address();
+      if (!address || typeof address === "string") return reject(new Error("Could not allocate a test port"));
+      server.close(() => resolve(address.port));
+    });
+  });
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  const next = fileURLToPath(new URL("../node_modules/next/dist/bin/next", import.meta.url));
+  const server = spawn(process.execPath, [next, "start", "-H", "127.0.0.1", "-p", String(port)], { cwd: root, stdio: "ignore" });
+  const url = `http://127.0.0.1:${port}`;
+
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (server.exitCode !== null) throw new Error(`Next.js exited before serving HTML (${server.exitCode})`);
+    try {
+      const response = await fetch(url, { headers: { accept: "text/html" } });
+      if (response.ok) return { response, stop: () => server.kill("SIGTERM") };
+    } catch {}
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  server.kill("SIGTERM");
+  throw new Error("Next.js did not become ready in time");
 }
 
-test("server-renders the ASSEMBLY casting office site", async () => {
-  const response = await render();
+test("server-renders the ASSEMBLY talent management site", async () => {
+  const { response, stop } = await render();
+  const html = await response.text();
+  stop();
+
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-  const html = await response.text();
-
-  assert.match(html, /<title>ASSEMBLY — Casting Office, Seoul<\/title>/i);
-  assert.match(html, /CASTING OFFICE/);
+  assert.match(html, /<title>ASSEMBLY — Talent Management, Seoul<\/title>/i);
+  assert.match(html, /TALENT MANAGEMENT/);
   assert.match(html, /NOAH KIM/);
   assert.match(html, /SOYEON HAN/);
   assert.match(html, /MIRA SEO/);
   assert.match(html, /NOCTURNE/);
-  assert.match(html, /FIELD NOTES \/ 07/);
-  assert.match(html, /CONTENT DESK \/ LIVE/);
-  assert.match(html, /Faces, placed in motion\./);
-  assert.match(html, /Publish without breaking the frame\./);
+  assert.match(html, /AGENCY JOURNAL \/ 07/);
+  assert.match(html, /MANAGEMENT DESK \/ LIVE/);
+  assert.match(html, /Our roster, on screen\./);
+  assert.match(html, /One desk for every profile and placement\./);
   assert.doesNotMatch(html, /[가-힣]|PROPOSAL|WHAT THIS SITE PROVES/);
 });
 

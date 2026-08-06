@@ -858,7 +858,8 @@ main { background: var(--black); }
 .hero-word { position: relative; width: max-content; }
 .hero-title h1 { width: max-content; margin: 0; font-size: clamp(5rem,13.1vw,13rem); line-height: .72; letter-spacing: -.074em; white-space: nowrap; will-change: transform,opacity; }
 .hero-word > span { position: absolute; inset: 0; color: transparent; -webkit-text-stroke: 1px var(--vermilion); font: 720 clamp(5rem,13.1vw,13rem)/.72 var(--font-geist-sans); letter-spacing: -.074em; white-space: nowrap; pointer-events: none; }
-.hero-copy,.hero-focus { margin-bottom: 22px; }
+.hero-copy { margin-bottom: 22px; }
+.hero-focus { margin-bottom: 96px; }
 .hero-sequence { position: absolute !important; z-index: 7 !important; right: 32px; bottom: 102px; width: min(420px,38vw); display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid rgba(242,238,230,.24); border-bottom: 1px solid rgba(242,238,230,.14); }
 .hero-sequence span { padding: 12px 0; display: flex; gap: 8px; font: 650 8px/1 var(--font-geist-mono); letter-spacing: .1em; }
 .hero-sequence i { color: var(--vermilion); font-style: normal; }
@@ -886,7 +887,8 @@ main { background: var(--black); }
   .hero-topline span:last-child { display: none; }
   .hero-title { margin-bottom: 2vh; }
   .hero-title h1,.hero-word > span { font-size: 17.4vw; }
-  .hero-copy,.hero-focus { margin-bottom: 18px; }
+  .hero-copy { margin-bottom: 18px; }
+  .hero-focus { margin-bottom: 42px; }
   .hero-focus { width: 100%; }
   .hero-cuts { inset: 58px 0; }
   .hero-cut-cast,.hero-cut-direct,.hero-cut-deliver { right: -17vw; top: 12vh; width: 78vw; height: 64vh; }
@@ -957,7 +959,7 @@ main { background: var(--black); }
 .orbit-meter > i b { position: absolute; inset: 0; background: var(--vermilion); transform: scaleX(0); transform-origin: left; }
 
 .project { content-visibility: visible; contain: layout paint; }
-.project-media { isolation: isolate; box-shadow: 0 24px 80px rgba(16,14,12,.12); }
+.project-media { isolation: isolate; background: #111116; box-shadow: 0 24px 80px rgba(16,14,12,.12); }
 .project-main-image { position: relative; z-index: 0; will-change: transform,clip-path; }
 .project-scan { position: absolute; z-index: 3; left: 0; right: 0; top: 50%; height: 2px; display: block; background: rgba(242,238,230,.92); box-shadow: 0 0 18px rgba(242,238,230,.7); transform-origin: left; pointer-events: none; }
 .project:nth-child(1) .project-main-image { object-position: center; }

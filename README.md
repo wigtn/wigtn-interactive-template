@@ -1,6 +1,6 @@
-# ASSEMBLY — Interactive Casting Office
+# ASSEMBLY — Interactive Talent Management
 
-An interactive portfolio concept for a Seoul casting and production office. The site combines editorial art direction with a scroll-driven Three.js casting room, GSAP transitions, project case studies, talent profiles, and a functional CMS interface demonstration.
+An interactive portfolio concept for an independent Seoul talent management agency representing models and actors for film, fashion and beauty. The site combines editorial art direction with a scroll-driven Three.js talent showcase, GSAP transitions, campaign case studies, represented-talent profiles, and a functional CMS interface demonstration.
 
 ## Stack
 

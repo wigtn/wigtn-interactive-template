@@ -35,7 +35,7 @@ type Project = {
 const talents: Talent[] = [
   { name: "NOAH KIM", role: "Model", location: "Seoul", image: "/talent-noah-v3.png", stats: ["187 CM", "SUIT 48", "SHOES 280"], note: "A quiet presence built for long takes, tailored campaigns and precise movement direction.", reelImages: ["/talent-noah-v2.jpg", "/motion-study-v1.png"], reelLabel: "WALK / TURN / STILL", credits: ["Automotive film · 2026", "Maison menswear · 2025", "Available worldwide"] },
   { name: "SOYEON HAN", role: "Actor · Model", location: "Seoul / Tokyo", image: "/talent-soyeon-v3.png", stats: ["174 CM", "KOR · ENG", "FILM · BEAUTY"], note: "A subtle shift in expression carries her from exacting beauty frames into narrative film.", reelImages: ["/soft-focus-beauty-v1.png", "/editorial-backstage-v2.jpg"], reelLabel: "FACE / PROFILE / VOICE", credits: ["Nocturne film · 2026", "Soft Focus beauty · 2026", "Available APAC / EU"] },
-  { name: "MIRA SEO", role: "Film Director", location: "Seoul", image: "/talent-mira-v3.png", stats: ["COMMERCIAL", "MUSIC FILM", "EDITORIAL"], note: "She starts with the person, then shapes light and movement into a scene that holds.", reelImages: ["/editorial-backstage-v1.png", "/talent-mira-v3.png"], reelLabel: "FRAME / LIGHT / DIRECTION", credits: ["Nocturne · director", "Field Note 07 · subject", "Based in Seoul"] },
+  { name: "MIRA SEO", role: "Actor", location: "Seoul", image: "/talent-mira-v3.png", stats: ["170 CM", "KOR · ENG", "FILM · EDITORIAL"], note: "A grounded screen presence with the restraint to hold a narrative frame and the range to shift it.", reelImages: ["/editorial-backstage-v1.png", "/talent-mira-v3.png"], reelLabel: "VOICE / PROFILE / SCENE", credits: ["Field Note 07 · 2026", "Independent film · 2025", "Available worldwide"] },
 ];
 
 const projects: Project[] = [
@@ -46,11 +46,11 @@ const projects: Project[] = [
 
 function Intro() {
   return <div className="intro" aria-hidden="true">
-    <div className="intro-meta"><span>ASSEMBLY / SEOUL</span><span>CASTING OFFICE</span></div>
+    <div className="intro-meta"><span>ASSEMBLY / SEOUL</span><span>TALENT MANAGEMENT</span></div>
     <div className="intro-frames"><figure><img src="/talent-noah-v3.png" alt="" /></figure><figure><img src="/talent-soyeon-v3.png" alt="" /></figure><figure><img src="/talent-mira-v3.png" alt="" /></figure></div>
     <div className="intro-word"><span>ASSEMBLY</span></div>
-    <div className="intro-count"><b>03</b><span>FACES / SEOUL</span></div>
-    <div className="intro-foot"><span>MODEL · ACTOR · CASTING PRODUCTION</span><b>EST. 2026</b></div>
+    <div className="intro-count"><b>03</b><span>REPRESENTED / SEOUL</span></div>
+    <div className="intro-foot"><span>MODELS · ACTORS · BOOKINGS</span><b>EST. 2026</b></div>
     <div className="intro-panels">{Array.from({ length: 8 }, (_, index) => <i key={index} />)}</div>
   </div>;
 }
@@ -60,11 +60,11 @@ function Header() {
   return <>
     <header className="header">
       <a className="brand" href="#top" aria-label="Assembly home"><i />ASSEMBLY</a>
-      <nav aria-label="Primary navigation"><a href="#talent">Talent</a><a href="#work">Campaigns</a><a href="#journal">Journal</a><a href="#office">Office</a></nav>
+      <nav aria-label="Primary navigation"><a href="#talent">Talent</a><a href="#work">Work</a><a href="#journal">Journal</a><a href="#office">Management</a></nav>
       <button className="menu-toggle" onClick={() => setOpen(value => !value)} aria-expanded={open}>{open ? "Close" : "Menu"}</button>
       <a className="book-link" href="mailto:book@assembly-seoul.com">Book talent ↗</a>
     </header>
-    <div className={`mobile-menu ${open ? "open" : ""}`}>{[["Talent", "#talent"], ["Campaigns", "#work"], ["Journal", "#journal"], ["Office", "#office"]].map(([label, href], index) => <a href={href} key={label} onClick={() => setOpen(false)}><small>0{index + 1}</small>{label}</a>)}</div>
+    <div className={`mobile-menu ${open ? "open" : ""}`}>{[["Talent", "#talent"], ["Work", "#work"], ["Journal", "#journal"], ["Management", "#office"]].map(([label, href], index) => <a href={href} key={label} onClick={() => setOpen(false)}><small>0{index + 1}</small>{label}</a>)}</div>
   </>;
 }
 
@@ -75,15 +75,15 @@ function Hero() {
       <ThreeCastingRoom />
       <div className="hero-shade" />
       <div className="hero-frame" aria-hidden="true"><i /><i /><i /><i /></div>
-      <div className="hero-topline"><span>Casting office for film &amp; campaign</span><span>Seoul, Korea</span></div>
-      <div className="hero-title"><p>MODEL · ACTOR · PRODUCTION</p><div className="hero-word"><h1>ASSEMBLY</h1><div className="hero-title-slices" aria-hidden="true"><span>ASSEMBLY</span><span>ASSEMBLY</span><span>ASSEMBLY</span></div><i className="hero-title-gate" aria-hidden="true" /></div></div>
-      <div className="hero-copy"><p>Casting, motion tests and production for film, fashion and beauty.</p><a href="#talent">Meet the roster <span>↓</span></a></div>
-      <div className="hero-focus"><small>NOW CASTING</small><strong>Q3 / 2026</strong><span>FILM · BEAUTY · EDITORIAL</span></div>
+      <div className="hero-topline"><span>Independent talent management agency</span><span>Seoul / Worldwide</span></div>
+      <div className="hero-title"><p>MODELS · ACTORS · BOOKINGS</p><div className="hero-word"><h1>ASSEMBLY</h1><div className="hero-title-slices" aria-hidden="true"><span>ASSEMBLY</span><span>ASSEMBLY</span><span>ASSEMBLY</span></div><i className="hero-title-gate" aria-hidden="true" /></div></div>
+      <div className="hero-copy"><p>We represent distinctive models and actors for film, fashion and beauty.</p><a href="#talent">Meet our talent <span>↓</span></a></div>
+      <div className="hero-focus"><small>NOW BOOKING</small><strong>Q3 / 2026</strong><span>FILM · FASHION · BEAUTY</span></div>
       <div className="hero-sequence" aria-hidden="true"><span><i>01</i>ENTER</span><span><i>02</i>SELECT</span><span><i>03</i>ASSEMBLE</span></div>
       <div className="hero-readout" aria-hidden="true"><span>CAMERA / Z</span><b>+07.8</b><i /></div>
-      <div className="hero-resolve" aria-hidden="true"><span>ASSEMBLY / LOCK</span><i /><b>06 FRAMES</b></div>
-      <div className="hero-final"><span>CASTING ROOM / 06 FRAMES</span><strong><i>SELECTED.</i><i>IN MOTION.</i></strong><p>Casting and production for film, beauty and editorial.</p></div>
-      <div className="hero-runner" aria-hidden="true"><span>CASTING</span><i /><span>DIRECTION</span><i /><span>PRODUCTION</span><i /><span>SEOUL / 2026</span></div>
+      <div className="hero-resolve" aria-hidden="true"><span>ASSEMBLY / REPRESENTED</span><i /><b>03 TALENTS</b></div>
+      <div className="hero-final"><span>REPRESENTED TALENT / SEOUL</span><strong><i>SELECTED.</i><i>IN MOTION.</i></strong><p>Talent management and casting for film, fashion and beauty.</p></div>
+      <div className="hero-runner" aria-hidden="true"><span>TALENT MANAGEMENT</span><i /><span>CASTING</span><i /><span>BOOKINGS</span><i /><span>SEOUL / WORLDWIDE</span></div>
     </div>
   </section>;
 }
@@ -94,16 +94,16 @@ function OrbitRoster({ onSelect }: { onSelect: (talent: Talent) => void }) {
       <div className="static-cast-collage" aria-hidden="true">{talents.map((talent, index) => <figure key={talent.name}><img className="cast-primary" src={talent.image} alt="" loading="eager" decoding="async" /><div className="cast-strips">{Array.from({ length: 6 }, (_, strip) => <i key={strip} style={{ backgroundImage: `url(${talent.image})` }} />)}</div><img className="cast-echo" src={talent.image} alt="" loading="eager" decoding="async" /><figcaption><span>0{index + 1}</span><strong>{talent.name}</strong></figcaption></figure>)}</div>
       <div className="orbit-serial" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
       <div className="orbit-scan" aria-hidden="true" />
-      <div className="orbit-index"><span>ROSTER / 2026</span><span>03 ACTIVE</span></div>
+      <div className="orbit-index"><span>REPRESENTED / 2026</span><span>03 TALENTS</span></div>
       <div className="orbit-stages">
         <article><small>01 / NOAH KIM</small><h2>A quiet presence built for long takes.</h2><p>Menswear, automotive and narrative film. He knows when to hold a frame and when to move through it.</p></article>
         <article><small>02 / SOYEON HAN</small><h2>One expression can turn the scene.</h2><p>Beauty precision with the emotional range to carry narrative work in Seoul and Tokyo.</p></article>
-        <article><small>03 / MIRA SEO</small><h2>Direction that begins with the person.</h2><p>Commercial and editorial scenes shaped around human movement, not decorative motion.</p></article>
+        <article><small>03 / MIRA SEO</small><h2>A performance that holds before it speaks.</h2><p>Narrative instinct and measured movement for film, editorial and character-led campaigns.</p></article>
       </div>
       <div className="orbit-meter"><i><b /></i><span>SCROLL TO SHIFT THE CAST</span></div>
     </div>
     <div className="talent-list">
-      <div className="talent-list-head"><span>FULL ROSTER / 03</span><strong>SELECT A PROFILE</strong></div>
+      <div className="talent-list-head"><span>REPRESENTED TALENT / 03</span><strong>SELECT A PROFILE</strong></div>
       {talents.map((talent, index) => <button className="talent-row" key={talent.name} onClick={() => onSelect(talent)} aria-label={`Open ${talent.name} profile`}>
         <span className="talent-no">0{index + 1}</span><span className="talent-thumb"><img src={talent.image} alt="" /></span><strong>{talent.name}</strong><span>{talent.role}</span><span>{talent.location}</span><i>↗</i>
       </button>)}
@@ -121,7 +121,7 @@ function Work({ onSelect }: { onSelect: (project: Project) => void }) {
     gsap.fromTo(cards, { autoAlpha: 0, y: 34, clipPath: "inset(0 0 8% 0)" }, { autoAlpha: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: .72, stagger: .08, ease: "power3.out", clearProps: "transform,clipPath" });
   }, [filter]);
   return <section className="work" id="work">
-    <header className="section-head reveal"><div><span>SELECTED WORK</span><span>2025—2026</span></div><h2>Faces, placed in motion.</h2><p>Selected casting work across film, beauty and editorial—built from the first shortlist through final delivery.</p></header>
+    <header className="section-head reveal"><div><span>TALENT IN WORK</span><span>2025—2026</span></div><h2>Our roster, on screen.</h2><p>Recent film, fashion and beauty work featuring talent represented by Assembly.</p></header>
     <div className="work-filters" aria-label="Project filters">{(["All", "Film", "Campaign", "Editorial"] as const).map(item => <button key={item} className={filter === item ? "active" : ""} aria-pressed={filter === item} onClick={() => setFilter(item)}><span>{item}</span></button>)}</div>
     <div className="project-list" ref={listRef}>
       {filtered.map((project, index) => <article className="project" key={project.id}>
@@ -232,9 +232,9 @@ function CaseHeroMedia({ project }: { project: Project }) {
 
 function Journal({ onSelect }: { onSelect: (project: Project) => void }) {
   return <section className="journal" id="journal">
-    <header className="journal-head reveal"><div><span>FIELD NOTES / 07</span><h2>What remains after the set wraps.</h2><p>Casting notes, fittings, movement tests and the decisions that never make the final cut.</p></div><div className="journal-mark" aria-hidden="true"><b>07</b><span>NOTES / SET / EDIT</span></div></header>
+    <header className="journal-head reveal"><div><span>AGENCY JOURNAL / 07</span><h2>What a profile cannot show.</h2><p>Castings, fittings, movement tests and the working notes behind every booking.</p></div><div className="journal-mark" aria-hidden="true"><b>07</b><span>CAST / FIT / BOOK</span></div></header>
     <article className="journal-lead reveal"><div className="journal-image"><img src="/editorial-backstage-v1.png" alt="Wardrobe fitting before the first frame" /><span>15 MINUTES BEFORE CAMERA</span></div><div><span>ON SET / 18 MAR</span><h3>Before the first frame.</h3><p>The fitting is over and the lights are still down. This is when a cast and crew begin imagining the same scene.</p><button onClick={() => onSelect(projects[2])}>READ FIELD NOTE ↗</button></div></article>
-    <div className="journal-grid"><article><span>CASTING / 04</span><h3>What a profile cannot show.</h3><p>Movement, voice and pace—the three checks we make before a final shortlist.</p></article><article><span>PRODUCTION / 11</span><h3>Why the mobile frame is directed separately.</h3><p>A portrait and title need a different rhythm when the screen fits in one hand.</p></article></div>
+    <div className="journal-grid"><article><span>CASTING / 04</span><h3>Inside a movement test.</h3><p>Movement, voice and pace—the three checks we make before a final shortlist.</p></article><article><span>BOOKINGS / 11</span><h3>Preparing talent for the mobile frame.</h3><p>Portrait, movement and expression need a different rhythm when the screen fits in one hand.</p></article></div>
   </section>;
 }
 
@@ -257,7 +257,7 @@ function Office() {
   const publish = () => { setItems(current => current.map((entry, index) => index === selected ? { ...entry, live: true, updated: "now" } : entry)); setSaved(true); };
   const upload = (event: ChangeEvent<HTMLInputElement>) => { const file = event.target.files?.[0]; if (!file) return; setUploadNote(file.size > 500 * 1024 * 1024 ? "FILE EXCEEDS THE 500 MB LIMIT" : `${file.name} · READY`); setSaved(false); };
   return <section className="office" id="office">
-    <header className="office-head reveal"><div><span>CONTENT DESK / LIVE</span><h2>Publish without breaking the frame.</h2></div><p>Talent, campaigns and journal entries share one editing flow. Update media, visibility and titles without a developer.</p><ul><li><b>03</b> content types</li><li><b>01</b> live preview</li><li><b>500</b> MB upload</li></ul></header>
+    <header className="office-head reveal"><div><span>MANAGEMENT DESK / LIVE</span><h2>One desk for every profile and placement.</h2></div><p>Talent profiles, recent work and agency journal entries share one editing flow. Update media, availability and visibility without a developer.</p><ul><li><b>03</b> content types</li><li><b>01</b> live preview</li><li><b>500</b> MB upload</li></ul></header>
     <div className="office-console reveal">
       <aside><header><strong>CONTENT</strong><button onClick={addItem}>+ NEW</button></header>{items.map((entry, index) => <button key={`${entry.title}-${index}`} className={selected === index ? "active" : ""} onClick={() => setSelected(index)}><i>{entry.live ? "LIVE" : "DRAFT"}</i><span><strong>{entry.title}</strong><small>{entry.type} · {entry.updated}</small></span></button>)}</aside>
       <div className="office-editor"><div className="editor-bar"><span>EDITING / {item.type.toUpperCase()}</span><b>{saved ? "ALL CHANGES SAVED" : "UNSAVED CHANGES"}</b></div><label>Title<input value={item.title} onChange={event => updateItems(items.map((entry, index) => index === selected ? { ...entry, title: event.target.value } : entry))} /></label><label>Visibility<button className={`visibility ${item.live ? "live" : ""}`} onClick={toggle} aria-pressed={item.live}><i />{item.live ? "PUBLIC" : "DRAFT"}</button></label><label className="upload">Media<input type="file" accept="video/mp4,video/quicktime,image/*" onChange={upload} /><span>DROP OR SELECT FILE</span><small>{uploadNote}</small></label><div className="editor-actions"><button onClick={removeItem} disabled={items.length === 1}>DELETE</button><button onClick={publish}>{saved && item.live ? "PUBLISHED" : "PUBLISH CHANGES"}</button></div></div>
@@ -283,7 +283,7 @@ function ProjectCase({ project, onClose }: { project: Project; onClose: () => vo
   const [activeChapter, setActiveChapter] = useState(0);
   const { overlayRef, closeOverlay } = useOverlayExperience(`case-${project.id}`, onClose);
   const description = project.type === "Film" ? "Performance, light and edit were developed as one continuous forty-two second arc." : project.type === "Campaign" ? "One image system moves deliberately across key visual, motion and vertical social placements." : "The story pairs close observation with working images from the minutes before production begins.";
-  const processLabel = project.type === "Film" ? "CASTING TEST / NOAH KIM" : project.type === "Campaign" ? "CASTING FRAME / SOYEON HAN" : "ON SET / MIRA SEO";
+  const processLabel = project.type === "Film" ? "PERFORMANCE TEST / NOAH KIM" : project.type === "Campaign" ? "BEAUTY TEST / SOYEON HAN" : "ON SET / MIRA SEO";
   return <div ref={overlayRef} className="overlay case-overlay" role="dialog" aria-modal="true" aria-label={`${project.title} case study`} tabIndex={-1}><div className="overlay-nav"><button data-overlay-close onClick={closeOverlay}>← BACK TO WORK</button><span>CASE {project.id} / {project.type.toUpperCase()}</span><i className="overlay-progress" aria-hidden="true" /></div><article className={`case case-${project.type.toLowerCase()}`}>
     <header><span>ASSEMBLY / CASE {project.id}</span><span>{project.type} · {project.year}</span></header>
     <div className="case-hero"><CaseHeroMedia project={project} /><div><span>{project.delivery}</span><h2>{project.title}</h2><p>{project.statement}</p></div></div>
@@ -295,7 +295,7 @@ function ProjectCase({ project, onClose }: { project: Project; onClose: () => vo
 }
 
 function Footer() {
-  return <footer className="footer"><div className="footer-call"><span>BOOKING / NEW BUSINESS</span><h2>Need the right face for the next frame?</h2><a href="mailto:hello@assembly-seoul.com">Start a casting request ↗</a></div><div className="footer-signal" aria-hidden="true"><i /><span>AVAILABLE FOR Q3 / 2026</span><i /></div><strong>ASSEMBLY</strong><div className="footer-bottom"><span>SEOUL · 37° 33′ N</span><span>MODEL · ACTOR · PRODUCTION</span><span>© 2026 ASSEMBLY</span><a href="#top">Back to top ↑</a></div></footer>;
+  return <footer className="footer"><div className="footer-call"><span>BOOKINGS / NEW BUSINESS</span><h2>Need the right talent for your next brief?</h2><a href="mailto:hello@assembly-seoul.com">Send a booking enquiry ↗</a></div><div className="footer-signal" aria-hidden="true"><i /><span>AVAILABLE FOR Q3 / 2026</span><i /></div><strong>ASSEMBLY</strong><div className="footer-bottom"><span>SEOUL · WORLDWIDE</span><span>TALENT MANAGEMENT · CASTING</span><span>© 2026 ASSEMBLY</span><a href="#top">Back to top ↑</a></div></footer>;
 }
 
 export default function Home() {
@@ -392,9 +392,9 @@ export default function Home() {
         const mainImage = projectElement.querySelector(".project-main-image");
         const info = projectElement.querySelector(".project-info");
         const scan = projectElement.querySelector(".project-scan");
-        gsap.fromTo(mainImage, { scale: index === 0 ? 1.035 : 1.15, clipPath: index % 2 ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)" }, { scale: index === 0 ? 1.005 : 1.06, clipPath: "inset(0% 0 0 0)", duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: projectElement, start: "top 78%" } });
-        gsap.from(info, { x: index % 2 ? 70 : -70, opacity: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: projectElement, start: "top 72%" } });
-        gsap.to(mainImage, { yPercent: index === 0 ? 0 : index % 2 ? 2.5 : -2.5, ease: "none", scrollTrigger: { trigger: projectElement, start: "top bottom", end: "bottom top", scrub: .7 } });
+        gsap.fromTo(mainImage, { scale: 1.035, autoAlpha: .38, filter: "grayscale(.48) brightness(.62)", clipPath: "inset(0%)" }, { scale: 1.005, autoAlpha: 1, filter: "grayscale(0) brightness(1)", duration: 1.05, ease: "power3.out", scrollTrigger: { trigger: projectElement, start: "top 94%" } });
+        gsap.from(info, { x: index % 2 ? 34 : -34, opacity: 0, duration: .82, ease: "power3.out", scrollTrigger: { trigger: projectElement, start: "top 88%" } });
+        gsap.to(mainImage, { yPercent: index === 0 ? 0 : index % 2 ? 1.2 : -1.2, ease: "none", scrollTrigger: { trigger: projectElement, start: "top bottom", end: "bottom top", scrub: 1.15 } });
         gsap.fromTo(scan, { scaleX: 0, xPercent: -100 }, { scaleX: 1, xPercent: 100, duration: .8, ease: "power3.inOut", scrollTrigger: { trigger: projectElement, start: "top 76%" } });
       });
       gsap.from(".journal-mark", { rotate: -16, scale: .7, opacity: 0, duration: 1, ease: "back.out(1.4)", scrollTrigger: { trigger: ".journal-head", start: "top 70%" } });
