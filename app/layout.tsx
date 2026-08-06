@@ -41,9 +41,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="/talent-noah-v2.jpg" as="image" />
-        <link rel="preload" href="/cast-hero-v2.jpg" as="image" />
-        <link rel="preload" href="/editorial-backstage-v2.jpg" as="image" />
+        <link rel="preload" href="/nocturne-film-still-v3.png" as="image" fetchPriority="high" />
+        <link rel="preload" href="/talent-noah-v3.png" as="image" />
+        <link rel="preload" href="/talent-soyeon-v3.png" as="image" />
+        <link rel="preload" href="/talent-mira-v3.png" as="image" />
+        <link rel="preload" href="/soft-focus-beauty-v1.png" as="image" />
+        <link rel="preload" href="/motion-study-v1.png" as="image" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

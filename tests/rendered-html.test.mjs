@@ -32,19 +32,21 @@ test("server-renders the ASSEMBLY casting office site", async () => {
   assert.doesNotMatch(html, /[가-힣]|PROPOSAL|WHAT THIS SITE PROVES/);
 });
 
-test("uses GSAP, video and interactive content tools without Three.js", async () => {
-  const [page, css, layout, packageJson] = await Promise.all([
+test("uses GSAP, video, Three.js and interactive content tools", async () => {
+  const [page, threeRoom, css, layout, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/three-casting-room.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.doesNotMatch(packageJson, /"three"/);
-  assert.doesNotMatch(page, /AssemblyScene/);
+  assert.match(packageJson, /"three"/);
+  assert.match(page, /ThreeCastingRoom/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-07/);
+  assert.match(page, /assembly-static-14/);
+  assert.doesNotMatch(page, /header-place/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
@@ -54,13 +56,16 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.match(page, /reelImages/);
   assert.doesNotMatch(page, /className="project-layer"/);
   assert.match(page, /soft-focus-beauty-v1\.png/);
-  assert.match(page, /data-webgl="film-veil"/);
-  assert.match(page, /getContext\("webgl"/);
+  assert.match(threeRoom, /data-webgl="casting-room"/);
+  assert.match(threeRoom, /WebGLRenderer/);
+  assert.match(threeRoom, /ShaderMaterial/);
+  assert.match(threeRoom, /IntersectionObserver/);
+  assert.match(threeRoom, /renderer\.dispose/);
   assert.match(page, /orbit-serial/);
   assert.match(page, /cast-echo/);
   assert.match(page, /hero-stage/);
-  assert.match(page, /hero-cut-cast/);
-  assert.match(page, /CAST\./);
+  assert.match(page, /hero-title-slices/);
+  assert.match(page, /SELECTED\./);
   assert.doesNotMatch(page, /gsap\.to\("\.footer > strong"/);
   assert.match(page, /ADDED TO SHORTLIST/);
   assert.match(page, /BACK TO ROSTER/);
@@ -74,6 +79,7 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
 
   await Promise.all([
     access(new URL("../public/assembly-film-v1.mp4", import.meta.url)),
+    access(new URL("../public/nocturne-film-still-v3.png", import.meta.url)),
     access(new URL("../public/og-assembly-v1.png", import.meta.url)),
     access(new URL("../public/talent-noah-v2.jpg", import.meta.url)),
     access(new URL("../public/cast-hero-v2.jpg", import.meta.url)),
