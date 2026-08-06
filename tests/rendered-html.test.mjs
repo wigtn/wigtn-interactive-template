@@ -44,7 +44,7 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.doesNotMatch(page, /AssemblyScene/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-06/);
+  assert.match(page, /assembly-static-07/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
@@ -58,6 +58,10 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.match(page, /getContext\("webgl"/);
   assert.match(page, /orbit-serial/);
   assert.match(page, /cast-echo/);
+  assert.match(page, /hero-stage/);
+  assert.match(page, /hero-cut-cast/);
+  assert.match(page, /CAST\./);
+  assert.doesNotMatch(page, /gsap\.to\("\.footer > strong"/);
   assert.match(page, /ADDED TO SHORTLIST/);
   assert.match(page, /BACK TO ROSTER/);
   assert.match(page, /BACK TO WORK/);

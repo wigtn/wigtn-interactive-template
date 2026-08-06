@@ -181,14 +181,24 @@ function WebGLFilmVeil() {
 
 function Hero() {
   return <section className="hero" id="top">
-    <video className="hero-film" autoPlay muted loop playsInline preload="metadata" poster="/cast-hero-v2.jpg" onLoadedMetadata={event => { event.currentTarget.playbackRate = 0.55; }}><source src="/assembly-film-v1.mp4" type="video/mp4" /></video>
-    <WebGLFilmVeil />
-    <div className="hero-shade" />
-    <div className="hero-topline"><span>Casting office for film &amp; campaign</span><span>Seoul, Korea</span></div>
-    <div className="hero-title"><p>MODEL · ACTOR · PRODUCTION</p><h1>ASSEMBLY</h1></div>
-    <div className="hero-copy"><p>Casting, motion tests and production for film, fashion and beauty.</p><a href="#talent">Meet the roster <span>↓</span></a></div>
-    <div className="hero-focus"><small>NOW CASTING</small><strong>Q3 / 2026</strong><span>FILM · BEAUTY · EDITORIAL</span></div>
-    <div className="hero-runner" aria-hidden="true"><span>CASTING</span><i /><span>DIRECTION</span><i /><span>PRODUCTION</span><i /><span>SEOUL / 2026</span></div>
+    <div className="hero-stage">
+      <video className="hero-film" autoPlay muted loop playsInline preload="metadata" poster="/cast-hero-v2.jpg" onLoadedMetadata={event => { event.currentTarget.playbackRate = 0.55; }}><source src="/assembly-film-v1.mp4" type="video/mp4" /></video>
+      <WebGLFilmVeil />
+      <div className="hero-shade" />
+      <div className="hero-frame" aria-hidden="true"><i /><i /><i /><i /></div>
+      <div className="hero-cuts" aria-hidden="true">
+        <figure className="hero-cut hero-cut-cast"><img src="/talent-noah-v3.png" alt="" /><figcaption><span>01</span> CAST / NOAH KIM</figcaption></figure>
+        <figure className="hero-cut hero-cut-direct"><img src="/talent-mira-v3.png" alt="" /><figcaption><span>02</span> DIRECT / MIRA SEO</figcaption></figure>
+        <figure className="hero-cut hero-cut-deliver"><img src="/talent-soyeon-v3.png" alt="" /><figcaption><span>03</span> DELIVER / SOYEON HAN</figcaption></figure>
+      </div>
+      <div className="hero-topline"><span>Casting office for film &amp; campaign</span><span>Seoul, Korea</span></div>
+      <div className="hero-title"><p>MODEL · ACTOR · PRODUCTION</p><div className="hero-word"><h1>ASSEMBLY</h1><span aria-hidden="true">ASSEMBLY</span></div></div>
+      <div className="hero-copy"><p>Casting, motion tests and production for film, fashion and beauty.</p><a href="#talent">Meet the roster <span>↓</span></a></div>
+      <div className="hero-focus"><small>NOW CASTING</small><strong>Q3 / 2026</strong><span>FILM · BEAUTY · EDITORIAL</span></div>
+      <div className="hero-sequence" aria-hidden="true"><span><i>01</i>CAST</span><span><i>02</i>DIRECT</span><span><i>03</i>DELIVER</span></div>
+      <div className="hero-final"><span>ASSEMBLY / SEOUL</span><strong><i>CAST.</i><i>DIRECT.</i><i>DELIVER.</i></strong><p>Talent, motion tests and production from shortlist to delivery.</p></div>
+      <div className="hero-runner" aria-hidden="true"><span>CASTING</span><i /><span>DIRECTION</span><i /><span>PRODUCTION</span><i /><span>SEOUL / 2026</span></div>
+    </div>
   </section>;
 }
 
@@ -206,6 +216,7 @@ function OrbitRoster({ onSelect }: { onSelect: (talent: Talent) => void }) {
       </div>
       <div className="orbit-meter"><i /><span>SCROLL TO SHIFT THE CAST</span></div>
     </div>
+    <div className="talent-list-head"><span>FULL ROSTER / 03</span><strong>SELECT A PROFILE</strong></div>
     <div className="talent-list">
       {talents.map((talent, index) => <button className="talent-row" key={talent.name} onClick={() => onSelect(talent)} aria-label={`Open ${talent.name} profile`}>
         <span className="talent-no">0{index + 1}</span><span className="talent-thumb"><img src={talent.image} alt="" /></span><strong>{talent.name}</strong><span>{talent.role}</span><span>{talent.location}</span><i>↗</i>
@@ -312,9 +323,33 @@ export default function Home() {
         .to(".intro", { yPercent: -100, duration: 0.78, ease: "power4.inOut" }, 1.72)
         .from(".hero-title h1,.hero-copy,.hero-focus,.hero-topline", { y: 50, opacity: 0, duration: 0.8, stagger: 0.06, ease: "power3.out" }, 1.82);
 
-      gsap.fromTo(".hero-film", { clipPath: "inset(0 18% 0 18%)", scale: 1.14 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1.02, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .7 } });
-      gsap.to(".hero-webgl", { opacity: .18, scale: 1.035, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } });
-      gsap.to(".hero-title", { yPercent: -5, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } });
+      const heroCuts = gsap.utils.toArray<HTMLElement>(".hero-cut");
+      const heroSteps = gsap.utils.toArray<HTMLElement>(".hero-sequence span");
+      gsap.set(heroCuts, { autoAlpha: 0, xPercent: 115, rotate: index => index === 1 ? 1.5 : -1.5, clipPath: "inset(0 0 100% 0)" });
+      gsap.set(heroSteps, { opacity: .24 });
+      gsap.set(".hero-final", { autoAlpha: 0, y: 28 });
+      gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom bottom", scrub: .75 } })
+        .to(".hero-film", { clipPath: "inset(7% 7% 7% 30%)", scale: 1.1, filter: "grayscale(.62) contrast(1.2) brightness(.54)", duration: .28, ease: "none" }, 0)
+        .to(".hero-webgl", { opacity: .58, scale: 1.045, duration: .28, ease: "none" }, 0)
+        .to(".hero-title h1", { xPercent: -9, opacity: .34, duration: .28, ease: "none" }, .03)
+        .fromTo(".hero-word > span", { autoAlpha: 0, xPercent: 16, clipPath: "inset(0 0 100% 0)" }, { autoAlpha: .52, xPercent: 4, clipPath: "inset(0% 0% 0% 0%)", duration: .24, ease: "none" }, .05)
+        .to(heroCuts[0], { autoAlpha: 1, xPercent: 0, clipPath: "inset(0% 0% 0% 0%)", duration: .22, ease: "power2.out" }, .08)
+        .to(heroSteps[0], { opacity: 1, color: "#e44832", duration: .08 }, .09)
+        .to(heroCuts[0], { xPercent: -96, autoAlpha: .12, rotate: -4, duration: .2, ease: "none" }, .31)
+        .to(heroSteps[0], { opacity: .24, color: "#f2eee6", duration: .06 }, .31)
+        .to(heroCuts[1], { autoAlpha: 1, xPercent: -10, clipPath: "inset(0% 0% 0% 0%)", duration: .22, ease: "power2.out" }, .31)
+        .to(heroSteps[1], { opacity: 1, color: "#e44832", duration: .08 }, .33)
+        .to(".hero-film", { clipPath: "inset(10% 25% 10% 25%)", duration: .2, ease: "none" }, .35)
+        .to(heroCuts[1], { xPercent: -112, autoAlpha: .12, rotate: 4, duration: .2, ease: "none" }, .55)
+        .to(heroSteps[1], { opacity: .24, color: "#f2eee6", duration: .06 }, .55)
+        .to(heroCuts[2], { autoAlpha: 1, xPercent: -20, clipPath: "inset(0% 0% 0% 0%)", duration: .22, ease: "power2.out" }, .55)
+        .to(heroSteps[2], { opacity: 1, color: "#e44832", duration: .08 }, .57)
+        .to(".hero-film", { clipPath: "inset(15% 38% 15% 38%)", scale: 1.16, duration: .22, ease: "none" }, .58)
+        .to(".hero-title,.hero-copy,.hero-focus", { autoAlpha: 0, y: -28, duration: .16, ease: "none" }, .67)
+        .to(heroCuts[2], { xPercent: -64, scale: .86, opacity: .24, duration: .2, ease: "none" }, .72)
+        .to(".hero-final", { autoAlpha: 1, y: 0, duration: .18, ease: "power2.out" }, .73)
+        .to(".hero-frame", { opacity: .72, inset: "86px 12vw 92px", duration: .2, ease: "none" }, .74)
+        .to(".hero-webgl", { opacity: .72, duration: .18, ease: "none" }, .76);
       gsap.utils.toArray<HTMLElement>(".reveal").forEach(element => gsap.from(element, { y: 70, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 84%" } }));
 
       const rosterCards = gsap.utils.toArray<HTMLElement>(".static-cast-collage figure");
@@ -325,6 +360,7 @@ export default function Home() {
       gsap.set(rosterCopy, { autoAlpha: index => index === 0 ? 1 : 0, y: index => index === 0 ? 0 : 32 });
       gsap.set(rosterSerials, { autoAlpha: index => index === 0 ? 1 : 0, yPercent: index => index === 0 ? 0 : 35 });
       gsap.set(rosterEchoes, { xPercent: -7 });
+      gsap.set(".talent-list-head", { autoAlpha: 0, y: 24 });
       gsap.timeline({ scrollTrigger: { trigger: ".orbit", start: "top top", end: "bottom bottom", scrub: .7 } })
         .to(".orbit-scan", { yPercent: 1650, duration: 1, ease: "none" }, 0)
         .to(rosterCards[0], { xPercent: -145, scale: .76, rotateY: 18, opacity: .2, filter: "blur(5px)", duration: .3 }, .14)
@@ -336,7 +372,9 @@ export default function Home() {
         .to(rosterCards[2], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .34 }, .55)
         .to(rosterEchoes[2], { xPercent: 7, duration: .22, yoyo: true, repeat: 1 }, .57)
         .to(rosterSerials[1], { autoAlpha: 0, yPercent: -35, duration: .1 }, .66).fromTo(rosterSerials[2], { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: .13 }, .68)
-        .set(rosterCopy[1], { autoAlpha: 0 }, .66).fromTo(rosterCopy[2], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .68);
+        .set(rosterCopy[1], { autoAlpha: 0 }, .66).fromTo(rosterCopy[2], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .68)
+        .to(".orbit-meter,.static-cast-collage,.orbit-stages,.orbit-serial,.orbit-scan", { autoAlpha: 0, duration: .1 }, .84)
+        .to(".talent-list-head", { autoAlpha: 1, y: 0, duration: .1 }, .86);
 
       gsap.from(".section-head h2", { clipPath: "inset(0 0 100% 0)", yPercent: 24, duration: 1.15, ease: "power4.out", scrollTrigger: { trigger: ".section-head", start: "top 76%" } });
       gsap.from(".work-filters button", { y: 18, opacity: 0, stagger: .07, duration: .55, scrollTrigger: { trigger: ".work-filters", start: "top 88%" } });
@@ -352,7 +390,6 @@ export default function Home() {
       gsap.from(".journal-grid article", { y: 60, opacity: 0, stagger: .14, duration: .8, scrollTrigger: { trigger: ".journal-grid", start: "top 82%" } });
       gsap.from(".office-head li", { y: 25, opacity: 0, stagger: .1, duration: .55, scrollTrigger: { trigger: ".office-head", start: "top 76%" } });
       gsap.from(".office-console", { clipPath: "inset(0 0 100% 0)", y: 45, duration: 1.1, ease: "power4.out", scrollTrigger: { trigger: ".office-console", start: "top 82%" } });
-      gsap.to(".footer > strong", { xPercent: -10, ease: "none", scrollTrigger: { trigger: ".footer", start: "top bottom", end: "bottom bottom", scrub: .6 } });
       gsap.from(".footer-signal i", { scaleX: 0, duration: 1, transformOrigin: "center", scrollTrigger: { trigger: ".footer", start: "top 72%" } });
       ScrollTrigger.create({ start: 0, end: "max", onUpdate: self => document.documentElement.style.setProperty("--progress", `${self.progress * 100}%`) });
     }, rootRef);
@@ -370,5 +407,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; window.removeEventListener("keydown", close); };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-06"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-07"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }
