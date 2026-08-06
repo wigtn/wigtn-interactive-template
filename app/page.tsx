@@ -30,6 +30,7 @@ type Project = {
   chapters: { time: string; label: string; note: string }[];
   chapterImages: [string, string, string];
   detailImage: string;
+  previewCue: number;
 };
 
 const talents: Talent[] = [
@@ -39,10 +40,14 @@ const talents: Talent[] = [
 ];
 
 const projects: Project[] = [
-  { id: "01", title: "NOCTURNE", type: "Film", year: "2026", image: "/nocturne-film-still-v3.png", detailImage: "/talent-noah-v3.png", chapterImages: ["/nocturne-film-still-v3.png", "/talent-soyeon-v3.png", "/talent-noah-v3.png"], statement: "Two figures hold the distance after the light goes out.", delivery: "FILM / 00:42 / 16:9", credits: ["Director — Mira Seo", "Cast — Soyeon Han · Noah Kim", "DOP — Hyun Park", "Run time — 00:42"], chapters: [{ time: "00:00", label: "Arrival", note: "A restrained entrance establishes the distance before either face is fully revealed." }, { time: "00:14", label: "Contact", note: "A single red line joins two performances without turning the frame into spectacle." }, { time: "00:31", label: "Afterimage", note: "The edit slows, leaving posture and eye-line to carry the final beat." }] },
-  { id: "02", title: "SOFT FOCUS", type: "Campaign", year: "2026", image: "/soft-focus-beauty-v1.png", detailImage: "/talent-soyeon-v3.png", chapterImages: ["/soft-focus-beauty-v1.png", "/talent-soyeon-v3.png", "/editorial-backstage-v2.jpg"], statement: "Skin, reflection and one direct gaze form a modular beauty system.", delivery: "KEY VISUAL / MOTION / SOCIAL", credits: ["Client — Nineteen", "Talent — Soyeon Han", "Photo — Jun Lee", "Usage — APAC / 12M"], chapters: [{ time: "01", label: "Key visual", note: "The cobalt field gives product, portrait and copy enough space to work at every ratio." }, { time: "02", label: "Motion cut", note: "Acrylic reflections become transitions for six and fifteen-second campaign edits." }, { time: "03", label: "Social set", note: "Portrait crops are directed for vertical placements instead of adapted after the shoot." }] },
-  { id: "03", title: "FIELD NOTE 07", type: "Editorial", year: "2026", image: "/motion-study-v1.png", detailImage: "/talent-mira-v3.png", chapterImages: ["/motion-study-v1.png", "/editorial-backstage-v1.png", "/talent-mira-v3.png"], statement: "Fifteen minutes of tension before the first frame, kept as an editorial record.", delivery: "STORY / 18 FRAMES / WEB", credits: ["Words — Haeun Cho", "Images — Yuri Lim", "Featuring — Mira Seo", "Published — 18 Mar"], chapters: [{ time: "A", label: "Before set", note: "The room is documented before marks, props and people settle into their final positions." }, { time: "B", label: "The fitting", note: "Small wardrobe decisions explain more about the character than a polished final still." }, { time: "C", label: "First frame", note: "The article ends where the campaign begins: the first deliberate look into camera." }] },
+  { id: "01", title: "NOCTURNE", type: "Film", year: "2026", image: "/nocturne-film-still-v3.png", detailImage: "/talent-noah-v3.png", previewCue: 0, chapterImages: ["/nocturne-film-still-v3.png", "/talent-soyeon-v3.png", "/talent-noah-v3.png"], statement: "Two figures hold the distance after the light goes out.", delivery: "FILM / 00:42 / 16:9", credits: ["Director — Mira Seo", "Cast — Soyeon Han · Noah Kim", "DOP — Hyun Park", "Run time — 00:42"], chapters: [{ time: "00:00", label: "Arrival", note: "A restrained entrance establishes the distance before either face is fully revealed." }, { time: "00:14", label: "Contact", note: "A single red line joins two performances without turning the frame into spectacle." }, { time: "00:31", label: "Afterimage", note: "The edit slows, leaving posture and eye-line to carry the final beat." }] },
+  { id: "02", title: "SOFT FOCUS", type: "Campaign", year: "2026", image: "/soft-focus-beauty-v1.png", detailImage: "/talent-soyeon-v3.png", previewCue: 3.4, chapterImages: ["/soft-focus-beauty-v1.png", "/talent-soyeon-v3.png", "/editorial-backstage-v2.jpg"], statement: "Skin, reflection and one direct gaze form a modular beauty system.", delivery: "KEY VISUAL / MOTION / SOCIAL", credits: ["Client — Nineteen", "Talent — Soyeon Han", "Photo — Jun Lee", "Usage — APAC / 12M"], chapters: [{ time: "01", label: "Key visual", note: "The cobalt field gives product, portrait and copy enough space to work at every ratio." }, { time: "02", label: "Motion cut", note: "Acrylic reflections become transitions for six and fifteen-second campaign edits." }, { time: "03", label: "Social set", note: "Portrait crops are directed for vertical placements instead of adapted after the shoot." }] },
+  { id: "03", title: "FIELD NOTE 07", type: "Editorial", year: "2026", image: "/motion-study-v1.png", detailImage: "/talent-mira-v3.png", previewCue: 6.8, chapterImages: ["/motion-study-v1.png", "/editorial-backstage-v1.png", "/talent-mira-v3.png"], statement: "Fifteen minutes of tension before the first frame, kept as an editorial record.", delivery: "STORY / 18 FRAMES / WEB", credits: ["Words — Haeun Cho", "Images — Yuri Lim", "Featuring — Mira Seo", "Published — 18 Mar"], chapters: [{ time: "A", label: "Before set", note: "The room is documented before marks, props and people settle into their final positions." }, { time: "B", label: "The fitting", note: "Small wardrobe decisions explain more about the character than a polished final still." }, { time: "C", label: "First frame", note: "The article ends where the campaign begins: the first deliberate look into camera." }] },
 ];
+
+const projectPreviewVideos: Record<string, string> = { "01": "/assembly-film-v1.mp4", "02": "/soft-focus-preview-v1.mp4", "03": "/field-note-preview-v1.mp4" };
+const projectPreviewWindows: Record<string, number> = { "01": 3.2, "02": 4.7, "03": 4.7 };
+const projectPreviewRates: Record<string, number> = { "01": .62, "02": .82, "03": 1 };
 
 function Intro() {
   return <div className="intro" aria-hidden="true">
@@ -111,6 +116,41 @@ function OrbitRoster({ onSelect }: { onSelect: (talent: Talent) => void }) {
   </section>;
 }
 
+function ProjectPreview({ project, index, onSelect }: { project: Project; index: number; onSelect: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [previewing, setPreviewing] = useState(false);
+  const cueStart = project.id === "01" ? project.previewCue : 0;
+
+  const setPreviewCue = (video: HTMLVideoElement) => {
+    if (!Number.isFinite(video.duration)) return;
+    video.currentTime = Math.min(cueStart, Math.max(0, video.duration - .35));
+  };
+  const startPreview = () => {
+    if (window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
+    const video = videoRef.current;
+    if (!video) return;
+    setPreviewing(true);
+    if (video.readyState >= 1) setPreviewCue(video);
+    void video.play().catch(() => setPreviewing(false));
+  };
+  const stopPreview = () => {
+    setPreviewing(false);
+    videoRef.current?.pause();
+  };
+  const keepPreviewLoop = (video: HTMLVideoElement) => {
+    if (!previewing || !Number.isFinite(video.duration)) return;
+    const cue = Math.min(cueStart, Math.max(0, video.duration - .35));
+    const end = Math.min(video.duration - .05, cue + projectPreviewWindows[project.id]);
+    if (video.currentTime >= end) video.currentTime = cue;
+  };
+
+  return <button className={`project-media ${previewing ? "is-previewing" : ""}`} onClick={onSelect} onMouseEnter={startPreview} onMouseLeave={stopPreview} onFocus={startPreview} onBlur={stopPreview} aria-label={`Open ${project.title} case study`}>
+    <img className="project-main-image" src={project.image} alt={`${project.title} campaign still`} loading="eager" decoding="async" fetchPriority={index < 2 ? "high" : "auto"} />
+    <video ref={videoRef} className="project-preview-video" muted playsInline preload="metadata" poster={project.image} aria-hidden="true" onLoadedMetadata={event => { event.currentTarget.playbackRate = projectPreviewRates[project.id]; if (previewing) { setPreviewCue(event.currentTarget); void event.currentTarget.play(); } }} onTimeUpdate={event => keepPreviewLoop(event.currentTarget)}><source src={projectPreviewVideos[project.id]} type="video/mp4" /></video>
+    <span className="project-preview-state" aria-hidden="true">MOTION PREVIEW</span><span className="project-open">VIEW CASE ↗</span><span className="project-delivery">{project.delivery}</span><i className="project-scan" aria-hidden="true" />
+  </button>;
+}
+
 function Work({ onSelect }: { onSelect: (project: Project) => void }) {
   const [filter, setFilter] = useState<"All" | Project["type"]>("All");
   const listRef = useRef<HTMLDivElement>(null);
@@ -124,8 +164,8 @@ function Work({ onSelect }: { onSelect: (project: Project) => void }) {
     <header className="section-head reveal"><div><span>TALENT IN WORK</span><span>2025—2026</span></div><h2>Our roster, on screen.</h2><p>Recent film, fashion and beauty work featuring talent represented by Assembly.</p></header>
     <div className="work-filters" aria-label="Project filters">{(["All", "Film", "Campaign", "Editorial"] as const).map(item => <button key={item} className={filter === item ? "active" : ""} aria-pressed={filter === item} onClick={() => setFilter(item)}><span>{item}</span></button>)}</div>
     <div className="project-list" ref={listRef}>
-      {filtered.map((project, index) => <article className="project" key={project.id}>
-        <button className="project-media" onClick={() => onSelect(project)} aria-label={`Open ${project.title} case study`}><img className="project-main-image" src={project.image} alt={`${project.title} campaign still`} loading="eager" decoding="async" fetchPriority={index < 2 ? "high" : "auto"} /><span className="project-open">VIEW CASE ↗</span><span className="project-delivery">{project.delivery}</span><i className="project-scan" aria-hidden="true" /></button>
+      {filtered.map((project, index) => <article className="project" data-project={project.id} key={project.id}>
+        <ProjectPreview project={project} index={index} onSelect={() => onSelect(project)} />
         <div className="project-info"><span>{project.id} / {project.type}</span><h3>{project.title}</h3><p>{project.statement}</p><small>{project.year}</small></div>
       </article>)}
     </div>
@@ -352,7 +392,7 @@ export default function Home() {
         .to(".hero-final", { autoAlpha: 1, y: 0, duration: .18, ease: "power2.out" }, .72)
         .to(".hero-frame", { opacity: .78, inset: "86px 8vw 92px", duration: .2, ease: "none" }, .74)
         .to(".hero-readout", { autoAlpha: .34, duration: .12 }, .82);
-      gsap.utils.toArray<HTMLElement>(".reveal").forEach(element => gsap.from(element, { y: 70, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 84%" } }));
+      gsap.utils.toArray<HTMLElement>(".reveal:not(.journal-head):not(.journal-lead):not(.office-head):not(.office-console)").forEach(element => gsap.from(element, { y: 70, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 84%" } }));
 
       const rosterCards = gsap.utils.toArray<HTMLElement>(".static-cast-collage figure");
       const rosterCopy = gsap.utils.toArray<HTMLElement>(".orbit-stages article");
@@ -366,25 +406,25 @@ export default function Home() {
       gsap.set(rosterStrips, { autoAlpha: 0 });
       rosterStrips.forEach(strips => gsap.set(strips.children, { xPercent: 0 }));
       gsap.set(".talent-list-head", { autoAlpha: 0, y: 24 });
-      gsap.timeline({ scrollTrigger: { trigger: ".orbit", start: "top top", end: "bottom bottom", scrub: .7 } })
+      gsap.timeline({ scrollTrigger: { trigger: ".orbit", start: "top top", end: "bottom bottom", scrub: 1.45 } })
         .to(".orbit-scan", { yPercent: 1650, duration: 1, ease: "none" }, 0)
         .to(".orbit-meter b", { scaleX: 1, duration: 1, ease: "none" }, 0)
-        .to(rosterCards[0], { xPercent: -145, scale: .76, rotateY: 18, opacity: .2, filter: "blur(5px)", duration: .3 }, .14)
-        .to(rosterCards[1], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .34 }, .16)
-        .fromTo(rosterStrips[1], { autoAlpha: 0 }, { autoAlpha: .56, duration: .1, yoyo: true, repeat: 1, ease: "power2.inOut" }, .18)
-        .to(rosterStrips[1].children, { xPercent: index => index % 2 ? 9 : -9, duration: .12, stagger: .012, yoyo: true, repeat: 1, ease: "power2.inOut" }, .18)
-        .fromTo(rosterEchoes[1], { autoAlpha: 0, xPercent: -7 }, { autoAlpha: .28, xPercent: 7, duration: .1, yoyo: true, repeat: 1, ease: "power2.inOut" }, .18)
-        .to(rosterSerials[0], { autoAlpha: 0, yPercent: -35, duration: .1 }, .27).fromTo(rosterSerials[1], { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: .13 }, .29)
-        .set(rosterCopy[0], { autoAlpha: 0 }, .27).fromTo(rosterCopy[1], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .29)
-        .to(rosterCards[1], { xPercent: -145, scale: .76, rotateY: 18, opacity: .2, filter: "blur(5px)", duration: .3 }, .53)
-        .to(rosterCards[2], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .34 }, .55)
-        .fromTo(rosterStrips[2], { autoAlpha: 0 }, { autoAlpha: .56, duration: .1, yoyo: true, repeat: 1, ease: "power2.inOut" }, .57)
-        .to(rosterStrips[2].children, { xPercent: index => index % 2 ? -9 : 9, duration: .12, stagger: .012, yoyo: true, repeat: 1, ease: "power2.inOut" }, .57)
-        .fromTo(rosterEchoes[2], { autoAlpha: 0, xPercent: -7 }, { autoAlpha: .28, xPercent: 7, duration: .1, yoyo: true, repeat: 1, ease: "power2.inOut" }, .57)
-        .to(rosterSerials[1], { autoAlpha: 0, yPercent: -35, duration: .1 }, .66).fromTo(rosterSerials[2], { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: .13 }, .68)
-        .set(rosterCopy[1], { autoAlpha: 0 }, .66).fromTo(rosterCopy[2], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .68)
-        .to(".orbit-meter,.static-cast-collage,.orbit-stages,.orbit-serial,.orbit-scan", { autoAlpha: 0, duration: .08 }, .92)
-        .to(".talent-list-head", { autoAlpha: 1, y: 0, duration: .07 }, .93);
+        .to(rosterCards[0], { xPercent: -138, scale: .84, rotateY: 10, opacity: .16, filter: "blur(2px)", duration: .36, ease: "power2.inOut" }, .12)
+        .to(rosterCards[1], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .4, ease: "power2.inOut" }, .13)
+        .fromTo(rosterStrips[1], { autoAlpha: 0 }, { autoAlpha: .22, duration: .16, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
+        .to(rosterStrips[1].children, { xPercent: index => index % 2 ? 3 : -3, duration: .2, stagger: .016, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
+        .fromTo(rosterEchoes[1], { autoAlpha: 0, xPercent: -3 }, { autoAlpha: .14, xPercent: 3, duration: .18, yoyo: true, repeat: 1, ease: "sine.inOut" }, .19)
+        .to(rosterSerials[0], { autoAlpha: 0, yPercent: -18, duration: .16 }, .25).fromTo(rosterSerials[1], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: .18 }, .27)
+        .to(rosterCopy[0], { autoAlpha: 0, y: -18, duration: .16 }, .24).fromTo(rosterCopy[1], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .2 }, .27)
+        .to(rosterCards[1], { xPercent: -138, scale: .84, rotateY: 10, opacity: .16, filter: "blur(2px)", duration: .36, ease: "power2.inOut" }, .51)
+        .to(rosterCards[2], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .4, ease: "power2.inOut" }, .52)
+        .fromTo(rosterStrips[2], { autoAlpha: 0 }, { autoAlpha: .22, duration: .16, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
+        .to(rosterStrips[2].children, { xPercent: index => index % 2 ? -3 : 3, duration: .2, stagger: .016, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
+        .fromTo(rosterEchoes[2], { autoAlpha: 0, xPercent: -3 }, { autoAlpha: .14, xPercent: 3, duration: .18, yoyo: true, repeat: 1, ease: "sine.inOut" }, .58)
+        .to(rosterSerials[1], { autoAlpha: 0, yPercent: -18, duration: .16 }, .64).fromTo(rosterSerials[2], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: .18 }, .66)
+        .to(rosterCopy[1], { autoAlpha: 0, y: -18, duration: .16 }, .63).fromTo(rosterCopy[2], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .2 }, .66)
+        .to(".orbit-meter,.static-cast-collage,.orbit-stages,.orbit-serial,.orbit-scan", { autoAlpha: 0, duration: .14 }, .9)
+        .to(".talent-list-head", { autoAlpha: 1, y: 0, duration: .12 }, .91);
 
       gsap.from(".section-head h2", { clipPath: "inset(0 0 100% 0)", yPercent: 24, duration: 1.15, ease: "power4.out", scrollTrigger: { trigger: ".section-head", start: "top 76%" } });
       gsap.from(".work-filters button", { y: 18, opacity: 0, stagger: .07, duration: .55, scrollTrigger: { trigger: ".work-filters", start: "top 88%" } });
@@ -397,12 +437,21 @@ export default function Home() {
         gsap.to(mainImage, { yPercent: index === 0 ? 0 : index % 2 ? 1.2 : -1.2, ease: "none", scrollTrigger: { trigger: projectElement, start: "top bottom", end: "bottom top", scrub: 1.15 } });
         gsap.fromTo(scan, { scaleX: 0, xPercent: -100 }, { scaleX: 1, xPercent: 100, duration: .8, ease: "power3.inOut", scrollTrigger: { trigger: projectElement, start: "top 76%" } });
       });
-      gsap.from(".journal-mark", { rotate: -16, scale: .7, opacity: 0, duration: 1, ease: "back.out(1.4)", scrollTrigger: { trigger: ".journal-head", start: "top 70%" } });
-      gsap.from(".journal-image img", { clipPath: "inset(0 100% 0 0)", scale: 1.12, duration: 1.25, ease: "power4.out", scrollTrigger: { trigger: ".journal-lead", start: "top 78%" } });
-      gsap.from(".journal-grid article", { y: 60, opacity: 0, stagger: .14, duration: .8, scrollTrigger: { trigger: ".journal-grid", start: "top 82%" } });
-      gsap.from(".office-head li", { y: 25, opacity: 0, stagger: .1, duration: .55, scrollTrigger: { trigger: ".office-head", start: "top 76%" } });
-      gsap.from(".office-console", { clipPath: "inset(0 0 100% 0)", y: 45, duration: 1.1, ease: "power4.out", scrollTrigger: { trigger: ".office-console", start: "top 82%" } });
-      gsap.from(".footer-signal i", { scaleX: 0, duration: 1, transformOrigin: "center", scrollTrigger: { trigger: ".footer", start: "top 72%" } });
+      gsap.from(".journal-head h2", { clipPath: "inset(0 0 100% 0)", yPercent: 18, duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".journal-head", start: "top 82%" } });
+      gsap.from(".journal-head p", { y: 28, opacity: 0, duration: .75, ease: "power3.out", scrollTrigger: { trigger: ".journal-head", start: "top 74%" } });
+      gsap.fromTo(".journal-mark", { rotate: -8, y: 48, opacity: .18 }, { rotate: 4, y: -18, opacity: 1, ease: "none", scrollTrigger: { trigger: ".journal-head", start: "top 88%", end: "bottom 28%", scrub: 1.35 } });
+      gsap.from(".journal-image img", { clipPath: "inset(0 100% 0 0)", scale: 1.1, duration: 1.15, ease: "power4.out", scrollTrigger: { trigger: ".journal-lead", start: "top 88%" } });
+      gsap.to(".journal-image img", { yPercent: -5, scale: 1.035, ease: "none", scrollTrigger: { trigger: ".journal-lead", start: "top bottom", end: "bottom top", scrub: 1.4 } });
+      gsap.from(".journal-lead > div:last-child > *", { y: 26, opacity: 0, stagger: .09, duration: .68, ease: "power3.out", scrollTrigger: { trigger: ".journal-lead", start: "top 76%" } });
+      gsap.from(".journal-grid article", { x: index => index ? 42 : -42, y: 28, opacity: 0, stagger: .12, duration: .88, ease: "power3.out", scrollTrigger: { trigger: ".journal-grid", start: "top 86%" } });
+      gsap.from(".office-head h2,.office-head p", { y: 38, opacity: 0, stagger: .11, duration: .82, ease: "power3.out", scrollTrigger: { trigger: ".office-head", start: "top 84%" } });
+      gsap.from(".office-head li", { x: 24, opacity: 0, stagger: .09, duration: .6, ease: "power3.out", scrollTrigger: { trigger: ".office-head", start: "top 72%" } });
+      gsap.from(".office-console", { clipPath: "inset(0 0 8% 0)", y: 54, opacity: .2, scale: .985, transformOrigin: "top center", duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".office-console", start: "top 88%" } });
+      gsap.from(".office-console > aside,.office-editor,.office-preview", { y: 30, opacity: 0, stagger: .12, duration: .72, ease: "power3.out", scrollTrigger: { trigger: ".office-console", start: "top 76%" } });
+      gsap.to(".preview-frame img", { scale: 1.07, yPercent: -2.5, ease: "none", scrollTrigger: { trigger: ".office-console", start: "top bottom", end: "bottom top", scrub: 1.5 } });
+      gsap.from(".footer-call > span,.footer-call > a", { y: 24, opacity: 0, stagger: .12, duration: .68, ease: "power3.out", scrollTrigger: { trigger: ".footer", start: "top 78%" } });
+      gsap.from(".footer-call h2", { clipPath: "inset(0 0 100% 0)", yPercent: 20, duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".footer", start: "top 78%" } });
+      gsap.from(".footer-signal i", { scaleX: 0, duration: 1, transformOrigin: "center", scrollTrigger: { trigger: ".footer", start: "top 64%" } });
       ScrollTrigger.create({ start: 0, end: "max", onUpdate: self => document.documentElement.style.setProperty("--progress", `${self.progress * 100}%`) });
     }, rootRef);
     const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 900);

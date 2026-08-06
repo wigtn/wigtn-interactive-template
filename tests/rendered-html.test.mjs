@@ -70,8 +70,14 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.doesNotMatch(page, /header-place/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
+  assert.match(page, /soft-focus-preview-v1\.mp4/);
+  assert.match(page, /field-note-preview-v1\.mp4/);
+  assert.match(page, /data-project={project\.id}/);
   assert.match(page, /autoPlay muted loop playsInline/);
   assert.match(page, /work-filters/);
+  assert.match(page, /project-preview-video/);
+  assert.match(page, /MOTION PREVIEW/);
+  assert.match(page, /onMouseEnter={startPreview}/);
   assert.match(page, /aria-pressed/);
   assert.match(page, /type="file"/);
   assert.match(page, /reelImages/);
@@ -100,6 +106,8 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
 
   await Promise.all([
     access(new URL("../public/assembly-film-v1.mp4", import.meta.url)),
+    access(new URL("../public/soft-focus-preview-v1.mp4", import.meta.url)),
+    access(new URL("../public/field-note-preview-v1.mp4", import.meta.url)),
     access(new URL("../public/nocturne-film-still-v3.png", import.meta.url)),
     access(new URL("../public/og-assembly-v1.png", import.meta.url)),
     access(new URL("../public/talent-noah-v2.jpg", import.meta.url)),
