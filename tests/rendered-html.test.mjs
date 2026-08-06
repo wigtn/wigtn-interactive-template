@@ -44,7 +44,7 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.doesNotMatch(page, /AssemblyScene/);
   assert.match(page, /static-cast-collage/);
   assert.match(page, /ScrollTrigger/);
-  assert.match(page, /assembly-static-05/);
+  assert.match(page, /assembly-static-06/);
   assert.match(page, /ScrollTrigger\.refresh/);
   assert.match(page, /assembly-film-v1\.mp4/);
   assert.match(page, /autoPlay muted loop playsInline/);
@@ -54,6 +54,10 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
   assert.match(page, /reelImages/);
   assert.doesNotMatch(page, /className="project-layer"/);
   assert.match(page, /soft-focus-beauty-v1\.png/);
+  assert.match(page, /data-webgl="film-veil"/);
+  assert.match(page, /getContext\("webgl"/);
+  assert.match(page, /orbit-serial/);
+  assert.match(page, /cast-echo/);
   assert.match(page, /ADDED TO SHORTLIST/);
   assert.match(page, /BACK TO ROSTER/);
   assert.match(page, /BACK TO WORK/);
@@ -71,5 +75,8 @@ test("uses GSAP, video and interactive content tools without Three.js", async ()
     access(new URL("../public/cast-hero-v2.jpg", import.meta.url)),
     access(new URL("../public/editorial-backstage-v2.jpg", import.meta.url)),
     access(new URL("../public/soft-focus-beauty-v1.png", import.meta.url)),
+    access(new URL("../public/talent-noah-v3.png", import.meta.url)),
+    access(new URL("../public/talent-soyeon-v3.png", import.meta.url)),
+    access(new URL("../public/talent-mira-v3.png", import.meta.url)),
   ]);
 });

@@ -30,21 +30,21 @@ type Project = {
 };
 
 const talents: Talent[] = [
-  { name: "NOAH KIM", role: "Model", location: "Seoul", image: "/talent-noah-v2.jpg", stats: ["187 CM", "SUIT 48", "SHOES 280"], note: "A quiet presence built for long takes, tailored campaigns and precise movement direction.", reelImages: ["/talent-noah-v1.png", "/motion-study-v1.png"], reelLabel: "WALK / TURN / STILL", credits: ["Automotive film · 2026", "Maison menswear · 2025", "Available worldwide"] },
-  { name: "SOYEON HAN", role: "Actor · Model", location: "Seoul / Tokyo", image: "/editorial-backstage-v2.jpg", stats: ["174 CM", "KOR · ENG", "FILM · BEAUTY"], note: "A subtle shift in expression carries her from exacting beauty frames into narrative film.", reelImages: ["/hero-campaign.png", "/soft-focus-beauty-v1.png"], reelLabel: "FACE / PROFILE / VOICE", credits: ["Nocturne film · 2026", "Soft Focus beauty · 2026", "Available APAC / EU"] },
-  { name: "MIRA SEO", role: "Film Director", location: "Seoul", image: "/campaign-nocturne-v1.png", stats: ["COMMERCIAL", "MUSIC FILM", "EDITORIAL"], note: "She starts with the person, then shapes light and movement into a scene that holds.", reelImages: ["/editorial-backstage-v1.png", "/editorial-backstage-v2.jpg"], reelLabel: "FRAME / LIGHT / DIRECTION", credits: ["Nocturne · director", "Field Note 07 · subject", "Based in Seoul"] },
+  { name: "NOAH KIM", role: "Model", location: "Seoul", image: "/talent-noah-v3.png", stats: ["187 CM", "SUIT 48", "SHOES 280"], note: "A quiet presence built for long takes, tailored campaigns and precise movement direction.", reelImages: ["/talent-noah-v2.jpg", "/motion-study-v1.png"], reelLabel: "WALK / TURN / STILL", credits: ["Automotive film · 2026", "Maison menswear · 2025", "Available worldwide"] },
+  { name: "SOYEON HAN", role: "Actor · Model", location: "Seoul / Tokyo", image: "/talent-soyeon-v3.png", stats: ["174 CM", "KOR · ENG", "FILM · BEAUTY"], note: "A subtle shift in expression carries her from exacting beauty frames into narrative film.", reelImages: ["/soft-focus-beauty-v1.png", "/editorial-backstage-v2.jpg"], reelLabel: "FACE / PROFILE / VOICE", credits: ["Nocturne film · 2026", "Soft Focus beauty · 2026", "Available APAC / EU"] },
+  { name: "MIRA SEO", role: "Film Director", location: "Seoul", image: "/talent-mira-v3.png", stats: ["COMMERCIAL", "MUSIC FILM", "EDITORIAL"], note: "She starts with the person, then shapes light and movement into a scene that holds.", reelImages: ["/editorial-backstage-v1.png", "/talent-mira-v3.png"], reelLabel: "FRAME / LIGHT / DIRECTION", credits: ["Nocturne · director", "Field Note 07 · subject", "Based in Seoul"] },
 ];
 
 const projects: Project[] = [
-  { id: "01", title: "NOCTURNE", type: "Film", year: "2026", image: "/cast-hero-v2.jpg", detailImage: "/hero-campaign.png", statement: "Two figures hold the distance after the light goes out.", delivery: "FILM / 00:42 / 16:9", credits: ["Director — Mira Seo", "Cast — Soyeon Han · Noah Kim", "DOP — Hyun Park", "Run time — 00:42"], chapters: [{ time: "00:00", label: "Arrival", note: "A restrained entrance establishes the distance before either face is fully revealed." }, { time: "00:14", label: "Contact", note: "A single red line joins two performances without turning the frame into spectacle." }, { time: "00:31", label: "Afterimage", note: "The edit slows, leaving posture and eye-line to carry the final beat." }] },
-  { id: "02", title: "SOFT FOCUS", type: "Campaign", year: "2026", image: "/soft-focus-beauty-v1.png", detailImage: "/soft-focus-beauty-v1.png", statement: "Skin, reflection and one direct gaze form a modular beauty system.", delivery: "KEY VISUAL / MOTION / SOCIAL", credits: ["Client — Nineteen", "Talent — Soyeon Han", "Photo — Jun Lee", "Usage — APAC / 12M"], chapters: [{ time: "01", label: "Key visual", note: "The cobalt field gives product, portrait and copy enough space to work at every ratio." }, { time: "02", label: "Motion cut", note: "Acrylic reflections become transitions for six and fifteen-second campaign edits." }, { time: "03", label: "Social set", note: "Portrait crops are directed for vertical placements instead of adapted after the shoot." }] },
-  { id: "03", title: "FIELD NOTE 07", type: "Editorial", year: "2026", image: "/motion-study-v1.png", detailImage: "/editorial-backstage-v1.png", statement: "Fifteen minutes of tension before the first frame, kept as an editorial record.", delivery: "STORY / 18 FRAMES / WEB", credits: ["Words — Haeun Cho", "Images — Yuri Lim", "Featuring — Mira Seo", "Published — 18 Mar"], chapters: [{ time: "A", label: "Before set", note: "The room is documented before marks, props and people settle into their final positions." }, { time: "B", label: "The fitting", note: "Small wardrobe decisions explain more about the character than a polished final still." }, { time: "C", label: "First frame", note: "The article ends where the campaign begins: the first deliberate look into camera." }] },
+  { id: "01", title: "NOCTURNE", type: "Film", year: "2026", image: "/cast-hero-v2.jpg", detailImage: "/talent-noah-v3.png", statement: "Two figures hold the distance after the light goes out.", delivery: "FILM / 00:42 / 16:9", credits: ["Director — Mira Seo", "Cast — Soyeon Han · Noah Kim", "DOP — Hyun Park", "Run time — 00:42"], chapters: [{ time: "00:00", label: "Arrival", note: "A restrained entrance establishes the distance before either face is fully revealed." }, { time: "00:14", label: "Contact", note: "A single red line joins two performances without turning the frame into spectacle." }, { time: "00:31", label: "Afterimage", note: "The edit slows, leaving posture and eye-line to carry the final beat." }] },
+  { id: "02", title: "SOFT FOCUS", type: "Campaign", year: "2026", image: "/soft-focus-beauty-v1.png", detailImage: "/talent-soyeon-v3.png", statement: "Skin, reflection and one direct gaze form a modular beauty system.", delivery: "KEY VISUAL / MOTION / SOCIAL", credits: ["Client — Nineteen", "Talent — Soyeon Han", "Photo — Jun Lee", "Usage — APAC / 12M"], chapters: [{ time: "01", label: "Key visual", note: "The cobalt field gives product, portrait and copy enough space to work at every ratio." }, { time: "02", label: "Motion cut", note: "Acrylic reflections become transitions for six and fifteen-second campaign edits." }, { time: "03", label: "Social set", note: "Portrait crops are directed for vertical placements instead of adapted after the shoot." }] },
+  { id: "03", title: "FIELD NOTE 07", type: "Editorial", year: "2026", image: "/motion-study-v1.png", detailImage: "/talent-mira-v3.png", statement: "Fifteen minutes of tension before the first frame, kept as an editorial record.", delivery: "STORY / 18 FRAMES / WEB", credits: ["Words — Haeun Cho", "Images — Yuri Lim", "Featuring — Mira Seo", "Published — 18 Mar"], chapters: [{ time: "A", label: "Before set", note: "The room is documented before marks, props and people settle into their final positions." }, { time: "B", label: "The fitting", note: "Small wardrobe decisions explain more about the character than a polished final still." }, { time: "C", label: "First frame", note: "The article ends where the campaign begins: the first deliberate look into camera." }] },
 ];
 
 function Intro() {
   return <div className="intro" aria-hidden="true">
     <div className="intro-meta"><span>ASSEMBLY / SEOUL</span><span>CASTING OFFICE</span></div>
-    <div className="intro-frames"><figure><img src="/talent-noah-v2.jpg" alt="" /></figure><figure><img src="/soft-focus-beauty-v1.png" alt="" /></figure><figure><img src="/campaign-nocturne-v1.png" alt="" /></figure></div>
+    <div className="intro-frames"><figure><img src="/talent-noah-v3.png" alt="" /></figure><figure><img src="/talent-soyeon-v3.png" alt="" /></figure><figure><img src="/talent-mira-v3.png" alt="" /></figure></div>
     <div className="intro-word"><span>ASSEMBLY</span></div>
     <div className="intro-count"><b>03</b><span>FACES / SEOUL</span></div>
     <div className="intro-foot"><span>MODEL · ACTOR · CASTING PRODUCTION</span><b>EST. 2026</b></div>
@@ -66,22 +66,138 @@ function Header() {
   </>;
 }
 
+function WebGLFilmVeil() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const gl = canvas?.getContext("webgl", { alpha: true, antialias: false });
+    if (!canvas || !gl) return;
+
+    const vertexSource = `
+      attribute vec2 position;
+      void main(){ gl_Position = vec4(position, 0.0, 1.0); }
+    `;
+    const fragmentSource = `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform vec2 pointer;
+      uniform float time;
+      uniform float scroll;
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
+      float noise(vec2 p){
+        vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
+        return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);
+      }
+      void main(){
+        vec2 uv=gl_FragCoord.xy/resolution.xy;
+        vec2 p=(uv-.5)*vec2(resolution.x/resolution.y,1.);
+        vec2 m=(pointer-.5)*.28;
+        float field=noise(p*4.2+vec2(time*.05,-scroll*.65));
+        float contour=smoothstep(.018,0.,abs(sin((p.y+m.y)*21.+field*2.4+time*.24))*.09);
+        float flare=exp(-22.*abs(p.y-m.y*.5-.08*sin(p.x*3.+time*.18)))*exp(-1.6*abs(p.x-m.x));
+        float grain=(hash(gl_FragCoord.xy+time)-.5)*.12;
+        float scan=.5+.5*sin((uv.y+scroll*.08)*resolution.y*1.15);
+        vec3 red=vec3(.92,.09,.035)*(flare*.72+contour*.08);
+        vec3 blue=vec3(.04,.12,.5)*field*.11;
+        vec3 colour=red+blue+grain+scan*.018;
+        float edge=1.0-smoothstep(.18,.82,length(p*.82));
+        gl_FragColor=vec4(colour, (.15+flare*.28+field*.06)*edge);
+      }
+    `;
+    const compile = (type: number, source: string) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
+    };
+    const vertex = compile(gl.VERTEX_SHADER, vertexSource);
+    const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
+    const program = gl.createProgram();
+    if (!vertex || !fragment || !program) return;
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    gl.useProgram(program);
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, "position");
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    const resolution = gl.getUniformLocation(program, "resolution");
+    const pointerUniform = gl.getUniformLocation(program, "pointer");
+    const timeUniform = gl.getUniformLocation(program, "time");
+    const scrollUniform = gl.getUniformLocation(program, "scroll");
+    const pointer = { x: .52, y: .46 };
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let frame = 0;
+    let active = true;
+    const start = performance.now();
+
+    const resize = () => {
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.6);
+      canvas.width = Math.round(canvas.clientWidth * ratio);
+      canvas.height = Math.round(canvas.clientHeight * ratio);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    };
+    const move = (event: PointerEvent) => { pointer.x = event.clientX / window.innerWidth; pointer.y = 1 - event.clientY / window.innerHeight; };
+    const render = (now: number) => {
+      frame = 0;
+      gl.uniform2f(resolution, canvas.width, canvas.height);
+      gl.uniform2f(pointerUniform, pointer.x, pointer.y);
+      gl.uniform1f(timeUniform, (now - start) / 1000);
+      gl.uniform1f(scrollUniform, window.scrollY / Math.max(window.innerHeight, 1));
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      if (!reduceMotion && active) frame = window.requestAnimationFrame(render);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      active = entry.isIntersecting;
+      if (!active && frame) { window.cancelAnimationFrame(frame); frame = 0; }
+      if (active && !frame) frame = window.requestAnimationFrame(render);
+    }, { rootMargin: "120px" });
+    resize();
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", move, { passive: true });
+    observer.observe(canvas);
+    frame = window.requestAnimationFrame(render);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", move);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertex);
+      gl.deleteShader(fragment);
+      gl.deleteBuffer(buffer);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="hero-webgl" data-webgl="film-veil" aria-hidden="true" />;
+}
+
 function Hero() {
   return <section className="hero" id="top">
     <video className="hero-film" autoPlay muted loop playsInline preload="metadata" poster="/cast-hero-v2.jpg" onLoadedMetadata={event => { event.currentTarget.playbackRate = 0.55; }}><source src="/assembly-film-v1.mp4" type="video/mp4" /></video>
+    <WebGLFilmVeil />
     <div className="hero-shade" />
     <div className="hero-topline"><span>Casting office for film &amp; campaign</span><span>Seoul, Korea</span></div>
     <div className="hero-title"><p>MODEL · ACTOR · PRODUCTION</p><h1>ASSEMBLY</h1></div>
     <div className="hero-copy"><p>Casting, motion tests and production for film, fashion and beauty.</p><a href="#talent">Meet the roster <span>↓</span></a></div>
     <div className="hero-focus"><small>NOW CASTING</small><strong>Q3 / 2026</strong><span>FILM · BEAUTY · EDITORIAL</span></div>
-    <div className="hero-runner" aria-hidden="true"><span>CASTING / DIRECTION / PRODUCTION / SEOUL /</span><span>CASTING / DIRECTION / PRODUCTION / SEOUL /</span></div>
+    <div className="hero-runner" aria-hidden="true"><span>CASTING</span><i /><span>DIRECTION</span><i /><span>PRODUCTION</span><i /><span>SEOUL / 2026</span></div>
   </section>;
 }
 
 function OrbitRoster({ onSelect }: { onSelect: (talent: Talent) => void }) {
   return <section className="orbit" id="talent">
     <div className="orbit-sticky">
-      <div className="static-cast-collage" aria-hidden="true">{talents.map((talent, index) => <figure key={talent.name}><img src={talent.image} alt="" /><figcaption><span>0{index + 1}</span><strong>{talent.name}</strong></figcaption></figure>)}</div>
+      <div className="static-cast-collage" aria-hidden="true">{talents.map((talent, index) => <figure key={talent.name}><img className="cast-primary" src={talent.image} alt="" /><img className="cast-echo" src={talent.image} alt="" /><figcaption><span>0{index + 1}</span><strong>{talent.name}</strong></figcaption></figure>)}</div>
+      <div className="orbit-serial" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
+      <div className="orbit-scan" aria-hidden="true" />
       <div className="orbit-index"><span>ROSTER / 2026</span><span>03 ACTIVE</span></div>
       <div className="orbit-stages">
         <article><small>01 / NOAH KIM</small><h2>A quiet presence built for long takes.</h2><p>Menswear, automotive and narrative film. He knows when to hold a frame and when to move through it.</p></article>
@@ -126,7 +242,7 @@ type OfficeItem = { title: string; type: string; live: boolean; image: string; u
 function Office() {
   const [items, setItems] = useState<OfficeItem[]>([
     { title: "Nocturne", type: "Campaign", live: true, image: "/cast-hero-v2.jpg", updated: "2 min ago" },
-    { title: "Noah Kim", type: "Talent", live: true, image: "/talent-noah-v2.jpg", updated: "18 min ago" },
+    { title: "Noah Kim", type: "Talent", live: true, image: "/talent-noah-v3.png", updated: "18 min ago" },
     { title: "Field Note 07", type: "Journal", live: false, image: "/editorial-backstage-v1.png", updated: "1 hr ago" },
   ]);
   const [selected, setSelected] = useState(0);
@@ -163,11 +279,12 @@ function TalentProfile({ talent, onClose }: { talent: Talent; onClose: () => voi
 
 function ProjectCase({ project, onClose }: { project: Project; onClose: () => void }) {
   const description = project.type === "Film" ? "Performance, light and edit were developed as one continuous forty-two second arc." : project.type === "Campaign" ? "One image system moves deliberately across key visual, motion and vertical social placements." : "The story pairs close observation with working images from the minutes before production begins.";
+  const processLabel = project.type === "Film" ? "CASTING TEST / NOAH KIM" : project.type === "Campaign" ? "CASTING FRAME / SOYEON HAN" : "ON SET / MIRA SEO";
   return <div className="overlay case-overlay" role="dialog" aria-modal="true" aria-label={`${project.title} case study`}><div className="overlay-nav"><button onClick={onClose}>← BACK TO WORK</button><span>CASE {project.id} / {project.type.toUpperCase()}</span></div><article className={`case case-${project.type.toLowerCase()}`}>
     <header><span>ASSEMBLY / CASE {project.id}</span><span>{project.type} · {project.year}</span></header>
     <div className="case-hero">{project.type === "Film" ? <video autoPlay muted loop playsInline poster={project.image}><source src="/assembly-film-v1.mp4" type="video/mp4" /></video> : <img src={project.image} alt={`${project.title} campaign still`} />}<div><span>{project.delivery}</span><h2>{project.title}</h2><p>{project.statement}</p></div></div>
     <div className="case-body"><div><span>THE WORK</span><h3>{description}</h3></div><dl>{project.credits.map(item => { const [key, value] = item.split(" — "); return <div key={item}><dt>{key}</dt><dd>{value}</dd></div>; })}</dl></div>
-    <section className="case-process"><figure><img src={project.detailImage} alt={`${project.title} process frame`} /><figcaption>PROCESS FRAME / {project.id}</figcaption></figure><div><span>FROM BRIEF TO DELIVERY</span>{project.chapters.map((chapter, index) => <article key={chapter.time}><i>0{index + 1}</i><b>{chapter.time}</b><h4>{chapter.label}</h4><p>{chapter.note}</p></article>)}</div></section>
+    <section className="case-process"><figure><img src={project.detailImage} alt={`${project.title} process frame`} /><figcaption>{processLabel}</figcaption></figure><div><span>FROM BRIEF TO DELIVERY</span>{project.chapters.map((chapter, index) => <article key={chapter.time}><i>0{index + 1}</i><b>{chapter.time}</b><h4>{chapter.label}</h4><p>{chapter.note}</p></article>)}</div></section>
     <div className="case-end"><span>RELATED CAST</span><strong>{project.id === "03" ? "MIRA SEO" : "SOYEON HAN · NOAH KIM"}</strong><a href="mailto:hello@assembly-seoul.com?subject=Project%20enquiry">START A SIMILAR PROJECT ↗</a></div>
     <div className="overlay-end"><button onClick={onClose}>← BACK TO WORK</button><a href="mailto:hello@assembly-seoul.com">NEW BUSINESS ↗</a></div>
   </article></div>;
@@ -196,19 +313,30 @@ export default function Home() {
         .from(".hero-title h1,.hero-copy,.hero-focus,.hero-topline", { y: 50, opacity: 0, duration: 0.8, stagger: 0.06, ease: "power3.out" }, 1.82);
 
       gsap.fromTo(".hero-film", { clipPath: "inset(0 18% 0 18%)", scale: 1.14 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1.02, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .7 } });
-      gsap.to(".hero-title h1", { xPercent: -9, letterSpacing: "-.09em", ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } });
-      gsap.to(".hero-runner", { xPercent: -22, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .6 } });
+      gsap.to(".hero-webgl", { opacity: .18, scale: 1.035, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } });
+      gsap.to(".hero-title", { yPercent: -5, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } });
       gsap.utils.toArray<HTMLElement>(".reveal").forEach(element => gsap.from(element, { y: 70, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 84%" } }));
 
       const rosterCards = gsap.utils.toArray<HTMLElement>(".static-cast-collage figure");
       const rosterCopy = gsap.utils.toArray<HTMLElement>(".orbit-stages article");
-      gsap.set(rosterCards, { xPercent: index => index === 0 ? -50 : index === 1 ? 45 : 115, scale: index => index === 0 ? 1 : .74, opacity: index => index === 2 ? 0 : 1 });
+      const rosterSerials = gsap.utils.toArray<HTMLElement>(".orbit-serial span");
+      const rosterEchoes = gsap.utils.toArray<HTMLElement>(".cast-echo");
+      gsap.set(rosterCards, { xPercent: index => index === 0 ? -50 : index === 1 ? 45 : 115, scale: index => index === 0 ? 1 : .78, rotateY: index => index === 0 ? 0 : -18, opacity: index => index === 0 ? 1 : 0, clipPath: index => index === 0 ? "inset(0% 0% 0% 0%)" : "inset(0% 100% 0% 0%)", transformPerspective: 1100 });
       gsap.set(rosterCopy, { autoAlpha: index => index === 0 ? 1 : 0, y: index => index === 0 ? 0 : 32 });
+      gsap.set(rosterSerials, { autoAlpha: index => index === 0 ? 1 : 0, yPercent: index => index === 0 ? 0 : 35 });
+      gsap.set(rosterEchoes, { xPercent: -7 });
       gsap.timeline({ scrollTrigger: { trigger: ".orbit", start: "top top", end: "bottom bottom", scrub: .7 } })
-        .to(rosterCards[0], { xPercent: -145, scale: .72, opacity: .42, duration: .28 }, .18).to(rosterCards[1], { xPercent: -50, scale: 1, opacity: 1, duration: .3 }, .18)
-        .set(rosterCopy[0], { autoAlpha: 0 }, .28).fromTo(rosterCopy[1], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .3)
-        .to(rosterCards[1], { xPercent: -145, scale: .72, opacity: .42, duration: .28 }, .55).to(rosterCards[2], { xPercent: -50, scale: 1, opacity: 1, duration: .3 }, .55)
-        .set(rosterCopy[1], { autoAlpha: 0 }, .65).fromTo(rosterCopy[2], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .67);
+        .to(".orbit-scan", { yPercent: 1650, duration: 1, ease: "none" }, 0)
+        .to(rosterCards[0], { xPercent: -145, scale: .76, rotateY: 18, opacity: .2, filter: "blur(5px)", duration: .3 }, .14)
+        .to(rosterCards[1], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .34 }, .16)
+        .to(rosterEchoes[1], { xPercent: 7, duration: .22, yoyo: true, repeat: 1 }, .18)
+        .to(rosterSerials[0], { autoAlpha: 0, yPercent: -35, duration: .1 }, .27).fromTo(rosterSerials[1], { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: .13 }, .29)
+        .set(rosterCopy[0], { autoAlpha: 0 }, .27).fromTo(rosterCopy[1], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .29)
+        .to(rosterCards[1], { xPercent: -145, scale: .76, rotateY: 18, opacity: .2, filter: "blur(5px)", duration: .3 }, .53)
+        .to(rosterCards[2], { xPercent: -50, scale: 1, rotateY: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: .34 }, .55)
+        .to(rosterEchoes[2], { xPercent: 7, duration: .22, yoyo: true, repeat: 1 }, .57)
+        .to(rosterSerials[1], { autoAlpha: 0, yPercent: -35, duration: .1 }, .66).fromTo(rosterSerials[2], { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: .13 }, .68)
+        .set(rosterCopy[1], { autoAlpha: 0 }, .66).fromTo(rosterCopy[2], { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: .16 }, .68);
 
       gsap.from(".section-head h2", { clipPath: "inset(0 0 100% 0)", yPercent: 24, duration: 1.15, ease: "power4.out", scrollTrigger: { trigger: ".section-head", start: "top 76%" } });
       gsap.from(".work-filters button", { y: 18, opacity: 0, stagger: .07, duration: .55, scrollTrigger: { trigger: ".work-filters", start: "top 88%" } });
@@ -242,5 +370,5 @@ export default function Home() {
     return () => { document.documentElement.style.overflow = ""; window.removeEventListener("keydown", close); };
   }, [profile, project]);
 
-  return <main ref={rootRef} data-release="assembly-static-05"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
+  return <main ref={rootRef} data-release="assembly-static-06"><Intro /><div className="page-progress" /><Header /><Hero /><OrbitRoster onSelect={setProfile} /><Work onSelect={setProject} /><Journal onSelect={setProject} /><Office /><Footer />{profile ? <TalentProfile talent={profile} onClose={() => setProfile(null)} /> : null}{project ? <ProjectCase project={project} onClose={() => setProject(null)} /> : null}</main>;
 }
