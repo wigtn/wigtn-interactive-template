@@ -110,6 +110,8 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
   assert.match(threeRoom, /WebGLRenderer/);
   assert.match(threeRoom, /ShaderMaterial/);
   assert.match(threeRoom, /IntersectionObserver/);
+  assert.match(threeRoom, /window\.addEventListener\("scroll", syncProgress/);
+  assert.doesNotMatch(threeRoom, /const heroRect = hero\.getBoundingClientRect/);
   assert.match(threeRoom, /renderer\.dispose/);
   assert.match(page, /casting-index/);
   assert.match(page, /talentPreviewVideos/);
@@ -142,5 +144,11 @@ test("uses GSAP, video, Three.js and interactive content tools", async () => {
     access(new URL("../public/talent-noah-v3.png", import.meta.url)),
     access(new URL("../public/talent-soyeon-v3.png", import.meta.url)),
     access(new URL("../public/talent-mira-v3.png", import.meta.url)),
+    access(new URL("../public/webgl/nocturne-film-still.jpg", import.meta.url)),
+    access(new URL("../public/webgl/talent-noah.jpg", import.meta.url)),
+    access(new URL("../public/webgl/talent-soyeon.jpg", import.meta.url)),
+    access(new URL("../public/webgl/talent-mira.jpg", import.meta.url)),
+    access(new URL("../public/webgl/soft-focus-beauty.jpg", import.meta.url)),
+    access(new URL("../public/webgl/motion-study.jpg", import.meta.url)),
   ]);
 });

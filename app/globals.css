@@ -1239,3 +1239,7 @@ main { background: var(--black); }
 .hero-stage > .hero-copy,
 .hero-stage > .hero-focus,
 .hero-stage > .hero-topline { opacity: 0; visibility: hidden; will-change: opacity; }
+
+/* ASSEMBLY / PERFORMANCE PASS 25 */
+.hero-stage,
+.casting-reel .static-cast-collage { contain: layout paint; }

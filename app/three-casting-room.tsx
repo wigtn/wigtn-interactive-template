@@ -5,18 +5,19 @@ import type { Group, MeshBasicMaterial, ShaderMaterial, Texture } from "three";
 
 type ContactFrame = {
   base: { x: number; y: number; z: number; ry: number };
+  grid: { x: number; y: number };
   frame: Group;
   image: ShaderMaterial;
   backing: MeshBasicMaterial;
 };
 
 const imageSources = [
-  "/nocturne-film-still-v3.png",
-  "/talent-noah-v3.png",
-  "/talent-soyeon-v3.png",
-  "/talent-mira-v3.png",
-  "/soft-focus-beauty-v1.png",
-  "/motion-study-v1.png",
+  "/webgl/nocturne-film-still.jpg",
+  "/webgl/talent-noah.jpg",
+  "/webgl/talent-soyeon.jpg",
+  "/webgl/talent-mira.jpg",
+  "/webgl/soft-focus-beauty.jpg",
+  "/webgl/motion-study.jpg",
 ];
 
 const vertexShader = `
@@ -149,6 +150,13 @@ export default function ThreeCastingRoom() {
 
       textures.forEach((texture: Texture, index) => {
         const base = basePositions[index];
+        const columns = mobile ? 2 : 3;
+        const column = index % columns;
+        const row = Math.floor(index / columns);
+        const grid = {
+          x: (column - (columns - 1) / 2) * (mobile ? 1.78 : 2.05),
+          y: mobile ? (1 - row) * 1.52 : (row === 0 ? 1 : -1) * 1.38,
+        };
         const frame = new THREE.Group();
         frame.position.set(base.x, base.y, base.z);
         frame.rotation.y = base.ry;
@@ -177,7 +185,7 @@ export default function ThreeCastingRoom() {
         border.position.z = .02;
         frame.add(backingMesh, imageMesh, border);
         world.add(frame);
-        frames.push({ base, frame, image, backing });
+        frames.push({ base, grid, frame, image, backing });
       });
 
       const railMaterial = new THREE.LineBasicMaterial({ color: 0x6f6b66, transparent: true, opacity: .2 });
@@ -207,17 +215,26 @@ export default function ThreeCastingRoom() {
       const pointer = { x: 0, y: 0 };
       let currentProgress = 0;
       let previousProgress = 0;
+      let targetProgress = 0;
       let velocity = 0;
       let frameId = 0;
       let active = true;
+      let heroTop = 0;
+      let maxTravel = 1;
       const startTime = performance.now();
 
+      const syncProgress = () => {
+        targetProgress = clamp((window.scrollY - heroTop) / maxTravel);
+      };
       const resize = () => {
         const width = canvas.clientWidth;
         const height = canvas.clientHeight;
         renderer.setSize(width, height, false);
         camera.aspect = width / Math.max(height, 1);
         camera.updateProjectionMatrix();
+        heroTop = hero.offsetTop;
+        maxTravel = Math.max(hero.offsetHeight - window.innerHeight, 1);
+        syncProgress();
       };
       const move = (event: PointerEvent) => {
         pointer.x = (event.clientX / window.innerWidth - .5) * 2;
@@ -226,9 +243,6 @@ export default function ThreeCastingRoom() {
 
       const render = (now: number) => {
         frameId = 0;
-        const heroRect = hero.getBoundingClientRect();
-        const maxTravel = Math.max(hero.offsetHeight - window.innerHeight, 1);
-        const targetProgress = clamp(-heroRect.top / maxTravel);
         currentProgress += (targetProgress - currentProgress) * .085;
         const delta = Math.abs(currentProgress - previousProgress);
         velocity += (Math.min(delta * 85, 1) - velocity) * .12;
@@ -241,15 +255,10 @@ export default function ThreeCastingRoom() {
         const elapsed = (now - startTime) / 1000;
 
         frames.forEach((entry, index) => {
-          const columns = mobile ? 2 : 3;
-          const column = index % columns;
-          const row = Math.floor(index / columns);
-          const gridX = (column - (columns - 1) / 2) * (mobile ? 1.78 : 2.05);
-          const gridY = mobile ? (1 - row) * 1.52 : (row === 0 ? 1 : -1) * 1.38;
           const gridZ = cameraZ - (mobile ? 6.6 : 7.2);
           entry.frame.position.set(
-            THREE.MathUtils.lerp(entry.base.x, gridX, assembly),
-            THREE.MathUtils.lerp(entry.base.y, gridY, assembly),
+            THREE.MathUtils.lerp(entry.base.x, entry.grid.x, assembly),
+            THREE.MathUtils.lerp(entry.base.y, entry.grid.y, assembly),
             THREE.MathUtils.lerp(entry.base.z, gridZ, assembly),
           );
           entry.frame.rotation.y = THREE.MathUtils.lerp(entry.base.ry, 0, assembly);
@@ -279,12 +288,14 @@ export default function ThreeCastingRoom() {
           window.cancelAnimationFrame(frameId);
           frameId = 0;
         } else if (active && !frameId) {
+          syncProgress();
           frameId = window.requestAnimationFrame(render);
         }
       }, { rootMargin: "160px" });
 
       resize();
       window.addEventListener("resize", resize);
+      window.addEventListener("scroll", syncProgress, { passive: true });
       window.addEventListener("pointermove", move, { passive: true });
       observer.observe(hero);
       frameId = window.requestAnimationFrame(render);
@@ -294,6 +305,7 @@ export default function ThreeCastingRoom() {
         window.cancelAnimationFrame(frameId);
         observer.disconnect();
         window.removeEventListener("resize", resize);
+        window.removeEventListener("scroll", syncProgress);
         window.removeEventListener("pointermove", move);
         scene.traverse(object => {
           if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.LineSegments) {
